@@ -1,0 +1,24 @@
+Default: &defaults
+  user: TheList
+  password: TheList
+  host: localhost
+  database: TheList
+  connections: 10
+
+Development:
+  <<: *defaults
+
+Testing:
+  database: TheList_test
+  <<: *defaults
+
+Staging:
+  database: TheList_staging
+  connections: 100
+  <<: *defaults
+
+Production:
+  database: TheList_production
+  connections: 100
+  host: localhost
+  <<: *defaults
