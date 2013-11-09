@@ -52,10 +52,11 @@ var myTransactions = function() {
               var h2 = $("<h2>").text(r.value.transactionItem);
               var desc = $("<p>").text(r.value.transactionDescription);
               //var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle', 'modal').attr('data-target', '#myTransactionModal').text('view details >>').click(function(){showTransactionDetails(r);});
-              var ul = $('<ul id="'+r.key+'">"').text("Offers");
+              var dropdown = $('<div>').addClass('dropdown-toggle').attr("data-toggle","dropdown").text("Offers");
+              var ul = $('<ul id="'+r.key+'">"').addClass("dropdown-menu");
               showOffers(r);
-              var div = $("<div>").append(h2).append(desc).append(ul);
-              var li = $('<li>').append(div);
+              var div = $("<div>").append(h2).append(desc);
+              var li = $('<li>').append(div).append(dropdown).append(ul);
               $('#myTransactionModalBody').append(li);
             })(trans[i]);
         }
