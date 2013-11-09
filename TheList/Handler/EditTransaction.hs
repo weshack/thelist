@@ -14,8 +14,8 @@ postEditTransactionR = do
             case ((transactionVendor t) == logged_in) of
                 True -> do
                     runDB $ update tId [TransactionItem =. item, TransactionBestOffer =. min_offer, TransactionDescription =. description ]
-                    returnJson [ "result" .= ("ok" :: Text) ]
-                False -> returnJson [ "result" .= ("error" :: Text) ]
+                    returnJson $ object [ "result" .= ("ok" :: Text) ]
+                False -> returnJson $ object [ "result" .= ("error" :: Text) ]
         _ -> return $ object [ "result" .= ("error" :: Text) ]
 
 data PartialTransaction = PartialTransaction TransactionId Text Text Text
