@@ -197,7 +197,7 @@ var fillTransactionModal = function(response){
 	$("#transactionModalBody").html("");
     $("#transactionModalTitle").val(response.value.transactionItem);
     $.getJSON("/ratings/for-user/"+response.value.transactionVendor).done(function(rating){
-      console.log(rating);
+      $("#transactionModalBody").html("<h4 href='#' onclick=showProfile(response.value.transactionVendor)></h4>");
       $.getJSON("/users/by-key/" + response.value.transactionVendor).done(function(user){
         var vendor = $("<h4>").text(user.userName + " - " + user.userIdent);
         var rates = $("<h5>").text("Rating: " + rating.rating + " out of " + rating.num_ratings + " ratings.");
