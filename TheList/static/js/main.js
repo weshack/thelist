@@ -1,3 +1,4 @@
+/* Checks if user is logged in */
 var isLoggedIn = function(){
 	$.getJSON("/current-user").done(function(response){
 		if (!response['value'])
@@ -19,18 +20,18 @@ var settings = function() {
 
 };
 
+/* searches transactions */
 var searchTransactions = function(){
 	query = $("#search-text").val();
 	$.getJSON("/transactions/search/" + query).done(function(response){
+    console.log(response);
 		for (var i = 0; i < response.length; i++){
-				$("#search-results").insert("<div class='col-sm-6 col-md-3'><h2>" + response[i]['val']['item'] + "</h2><p>" + response[i]['val']['description'] + "</p></br>" + response[i]['val']['vendor'] + "</div>");
+				$("#search-results").append("<div class='col-sm-6 col-md-3'><h2>" + 
+                                    response[i]['val']['item'] + "</h2><p>" + 
+                                    response[i]['val']['description'] + "</p></br>" + 
+                                    response[i]['val']['vendor'] + "</div>");
 		}
-		});
-	};
+  });
+};
 
 
-
-$(function(){
-	isLoggedIn();
-		
-});
