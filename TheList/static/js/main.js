@@ -24,7 +24,6 @@ var register = function() {
   }
 };
 
-//data-toggle="modal" data-target="#myTransactions"
 var myTransactions = function() {
   $.getJSON("/current-user").done(function(response){
     $.getJSON("/transactions/by-id/" + response['value']['userIdent']).done(function(resp){
@@ -48,13 +47,28 @@ var myTransactions = function() {
 
 
 var showTransactionDetails = function(response) {
+  $("#myTransactionModalBody").html('');
   $("#myTransactionModalTitle").val(response.value.transactionItem);
   var vendor = $("<h4>").text(response.value.transactionVendor);
   var desc = $("<p>").text(response.value.transactionDescription);
-  $("#myTransactionModalBody").append(vendor).append(desc);
   $("#myTransactionModalTitle").text(response['value']['transactionItem']);
+  var ul = $("<ul>").text("Offers");
+  $("#myTransactionModalBody").append(vendor).append(desc).append(ul);
   $.getJSON("/offers/for-transaction/" + response.key).done(function(response){
+    for (var i=0; i < response.length; i++) {
+      (function(r) {
+        var desc = $("<p>").text(r.value.offerOffer + "   ");
+        var btn = $("<button>").addClass('btn').addClass('btn-default').text('Accept Offer').click(function(){acceptOffer(r);});
+        desc.append(btn);
+        var li = $("<li>").addClass('offer').append(desc);
+        ul.append(li);
+      })(response[i]);
+    }
   });
+};
+
+var acceptOffer = function(offer) {
+console.log(offer);
 };
 
 var myOffers = function() {
