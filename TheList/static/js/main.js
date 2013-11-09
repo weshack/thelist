@@ -93,6 +93,30 @@ var settings = function() {
 
 };
 
+var showProfile = function(key) {
+	$.getJSON("/users/by-key/"+key).done(function(response){
+		console.log(response);
+		$("userProfileName").text(response['userName']);
+		userIdent = $("userProfileEmail").text(response['userIdent']);
+		$("userProfileCity").text(response['userCity']);
+		$.getJSON("/transactions/by-id/" + response['userIdent']).done(function(response){
+        console.log(response);
+        $("#userProfileTransactions").html("");
+        for (var i = 0; i < response.length; i++){
+            (function(r){
+              var h2 = $("<h2>").text(r.value.transactionItem);
+              var desc = $("<p>").text(r.value.transactionDescription);
+              var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle','modal').attr('data-target','#transactionModal').text('view details >>').click(function(){fillTransactionModal(r);});
+              var div = $("<div>").addClass("search-result").addClass('col').addClass("col-md-3").append(h2).append(desc).append(btn);
+              $("#userProfileTransactions").append(div);
+            })(response[i]);
+        }
+   });
+
+	})
+$('#userProfileModal').modal('show')
+}
+
 var addTransaction = function(){
   var data = {          
     'Item': $("#new-transaction-item").val(),
