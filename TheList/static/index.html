@@ -67,7 +67,34 @@
             </div>
           </div>
         </div>
-
+<div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Post</h4>
+              <table>
+                <tr>
+                  <td>Item:</td><td><input type="text" id="new-transaction-item" /></td>
+                </tr>
+                <tr>
+                  <td>Description:</td><td><input type="text" id="new-transaction-description" /></td>
+                </tr>
+                <tr>
+                  <td>Minimum Offer:</td><td><input type="text" id="new-transaction-offer" /></td>
+                </tr>
+              </table>
+            <input type="submit" value="Add Transaction" onclick='addTransaction()'/>
+          </div>
+          <div class="modal-body">
+            <h4>post form</h4>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div class="modal fade" id="myOffersModal" tabindex="-1" role="dialog" aria-labelledby="myOffersModal" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
