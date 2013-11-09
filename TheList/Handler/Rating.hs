@@ -8,12 +8,12 @@ import Yesod.Auth (requireAuthId)
 
 $(deriveJSON defaultOptions ''Rating)
 
-getRatingR :: String -> Handler Value
-getRatingR uident = do
-  user <- runDB $ selectFirst [ UserIdent ==. (pack uident) ] []
+getRatingR :: UserId -> Handler Value
+getRatingR uId = do
+  user <- runDB $ get uId
   case user of
-    Just uid -> do
-      ratings <- runDB $ selectList [ RatingReviewed ==. (entityKey uid) ] []
+    Just _ -> do
+      ratings <- runDB $ selectList [ RatingReviewed ==. uId ] []
       let ratingNums = map ratingRating . map entityVal $ ratings
       let avgRating = (sum ratingNums) `div` (length ratingNums)
       return $ object [ "rating" .= avgRating, "num_ratings" .= (length ratingNums) ]
