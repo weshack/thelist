@@ -1,11 +1,12 @@
 var isLoggedIn = function(){
 	$.getJSON("/current-user").done(function(response){
-		if (response['value'])
+		if (!response['value'])
 			return false;
 		else
 			$("#accountform").html("<button  type='submit' class='btn btn-default navbar-btn'>" + response['value']['userName']+"</button>");
 	});
 };
+
 var searchTransactions = function(){
 	query = $("#search-text").val();
 	$.getJSON("/transactions/search/" + query).done(function(response){
