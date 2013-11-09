@@ -57,12 +57,10 @@ var myTransactions = function() {
 
 
 var showTransactionDetails = function(response) {
-  $("#myTransactionModalBody").html('');
   $("#myTransactionModalTitle").val(response.value.transactionItem);
-  var desc = $("<p>").text(response.value.transactionDescription);
+  $("myTransactionDescription").text(response.value.transactionDescription);
   $("#myTransactionModalTitle").text(response['value']['transactionItem']);
-  var ul = $("<ul>").text("Offers");
-  $("#myTransactionModalBody").append(desc).append(ul);
+  $("#myTransactionOffers").append(desc).append(ul);
   $.getJSON("/offers/for-transaction/" + response.key).done(function(response){
     for (var i=0; i < response.length; i++) {
       (function(r) {
