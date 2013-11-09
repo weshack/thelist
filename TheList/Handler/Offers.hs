@@ -6,7 +6,9 @@ import Import
 import Yesod.Auth (requireAuthId)
 import Data.Maybe (fromJust)
 import System.Time (getClockTime,ClockTime(TOD))
-
+import Text.Shakespeare.Text (stext)
+import Network.Mail.Mime
+import Data.Text.Lazy.Encoding (encodeUtf8)
 $(deriveJSON defaultOptions ''Offer)
 
 getOffersR :: Handler Value
@@ -48,9 +50,33 @@ getAcceptOfferR oId = do
             (TOD currTime _) <- liftIO getClockTime
             runDB $ update (offerTransaction offer) [ TransactionBestOffer =. (offerOffer offer), TransactionCompleted =. Just (fromInteger currTime )]
             runDB $ deleteWhere [ OfferTransaction ==. (offerTransaction offer) ]
+            user <- runDB $ get404 (transactionVendor transaction)
+            emUser <- runDB $ get404 (offerClient offer)
+            let email = userIdent user
+            let name = fromJust . userName $ user
+            let textPart = Part {
+                  partType = "text/plain; charset=utf-8"
+                , partEncoding = None
+                , partFilename = Nothing
+                , partContent = encodeUtf8 [stext|
+                  Your offer has been accepted by #{name}.
+                  Please contact him/her at #{email} to
+                  finish the transaction.
+                  Thank you.
+                |]
+                , partHeaders = []
+              }
+            liftIO $ renderSendMail (emptyMail $ Address Nothing "noreply")
+                { mailTo = [Address Nothing (userIdent emUser)]
+                , mailHeaders =
+                [ ("Subject", "Your Offer Has Been Accepted")
+                ]
+                , mailParts = [[textPart]]
+            }
             return $ object [ "result" .= ("ok" :: Text) ]
-        False -> return $ object [ "result" .= ("error" :: Text) ]
-    
+        False ->
+            return $ object [ "result" .= ("error" :: Text) ]
+        
 
 data PartialOffer' = PartialOffer' OfferId
 

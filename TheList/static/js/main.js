@@ -232,4 +232,9 @@ var about = function(){
 
 $(function(){
   isLoggedIn();
+  $("#search-text").keydown(function(e){
+    if (e.which == 13){
+      $("#search-submit").click();
+    }  
+  });
 });
