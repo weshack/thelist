@@ -131,3 +131,7 @@ body {
   border: none;
 }
 
+.caret {
+  border-color: #ffffff;
+  color: #ffffff;
+}
