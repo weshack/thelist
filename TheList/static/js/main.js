@@ -53,12 +53,31 @@ var showTransactionDetails = function(response) {
   var desc = $("<p>").text(response.value.transactionDescription);
   $("#myTransactionModalBody").append(vendor).append(desc);
   $("#myTransactionModalTitle").text(response['value']['transactionItem']);
+  $.getJSON("/offers/for-transaction/" + response.key).done(function(response){
+  });
 };
 
 var myOffers = function() {
+	user = $("#username").text()
+	$.getJSON("/offers/by-id/" + user).done(function(response){
+        console.log(response);
+        $("#myOffersResults").html("");
+        for (var i = 0; i < response.length; i++){
+            (function(r){
+              var h2 = $("<h2>").text(r.value.offerOffer);
+              var desc = $("<p>").text(r.value.offerClient);
+              var btn = $("<a>").addClass('btn').addClass('btn-default').text('Cancel').click(function(){cancelOffer(r);});
+              var div = $("<div>").addClass("myOfferResult").addClass('col').addClass("col-md-3").append(h2).append(desc).append(btn)
+              $("#myOffersResults").append(div);
+            })(response[i]);
+        }
+	$('#myOffersModal').modal('show')
+}
+)};
 
-};
-
+var cancelOffer = function(r){
+	$.getJSON("/offers/rescind/" + r.key)
+}
 var settings = function() {
 
 };
