@@ -103,9 +103,9 @@ var settings = function() {
 var showProfile = function(key) {
 	$.getJSON("/users/by-key/"+key).done(function(response){
 		console.log(response);
-		$("userProfileName").text(response['userName']);
-		userIdent = $("userProfileEmail").text(response['userIdent']);
-		$("userProfileCity").text(response['userCity']);
+		$("#userProfileName").text(response['userName']);
+		$("#userProfileEmail").text(response['userIdent']);
+		$("#userProfileCity").text(response['userCity']);
 		$.getJSON("/transactions/by-id/" + response['userIdent']).done(function(response){
         console.log(response);
         $("#userProfileTransactions").html("");
@@ -179,6 +179,7 @@ var searchTransactions = function(){
 
 
 var fillTransactionModal = function(response){
+	$("#transactionModalBody").html("");
     $("#transactionModalTitle").val(response.value.transactionItem);
     $.getJSON("/users/by-key/" + response.value.transactionVendor).done(function(user){
         var vendor = $("<h4>").text(user.userName + " - " + user.userIdent);
