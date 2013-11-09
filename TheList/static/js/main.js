@@ -86,28 +86,29 @@ var addOffer = function() {
 
 /* searches transactions */
 var searchTransactions = function(){
-	query = $("#search-text").val();
-	$.getJSON("/transactions/search/" + query).done(function(response){
-    console.log(response);
-    $("#search-results").html("");
-		for (var i = 0; i < response.length; i++){
-				$("#search-results").append("<div class='search-result col-sm-6 col-md-3'><h2>" +
-                                    response[i]['value']['transactionItem'] + "</h2><p>" +
-                                    response[i]['value']['transactionDescription'] + "</p>" +
-                                    response[i]['value']['transactionVendor'] + "<p><a class='btn btn-default' onclick='fillTransactionModal(" + response[i] + ");' data-toggle='modal' data-target='#transactionModal'>View details &raquo;</a></p></div>");
-		}
-  });
+    query = $("#search-text").val();
+    $.getJSON("/transactions/search/" + query).done(function(response){
+        console.log(response);
+        $("#search-results").html("");
+        for (var i = 0; i < response.length; i++){
+            (function(r){
+              var h2 = $("<h2>").text(r.value.transactionItem);
+              var desc = $("<p>").text(r.value.transactionDescription);
+              var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle','modal').attr('data-target','#transactionModal').text('View Details >>').click(function(){fillTransactionModal(r);});
+              var div = $("<div>").addClass("search-result").addClass('col').addClass("col-md-3").append(h2).append(desc).append(btn)
+              $("#search-results").append(div);
+            })(response[i]);
+        }
+   });
 };
 
 
-var fillTransactionModal = function(a){
-	console.log(a);
-	$.getJSON("/transactions/by-id/"+a).done(function(response){
-		$("#transactionModalTitle").val(response['value']['transactionItem']);
-		$("#transactionModalBody").html("<h4>"+ response['value']['transactionVendor']+"</h4><p>"+response['value']['transactionDescription']+"</p>");
-		$("#transaction-title").val(response['value']['transactionItem']);
-
-	})
+var fillTransactionModal = function(response){
+    $("#transactionModalTitle").val(response.value.transactionItem);
+    var vendor = $("<h4>").text(response.value.transactionVendor);
+    var desc = $("<p>").text(response.value.transactionDescription);
+    $("#transactionModalBody").append(vendor).append(desc);
+    $("#transaction-title").val(response['value']['transactionItem']);
 }
 
 
