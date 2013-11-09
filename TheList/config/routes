@@ -15,3 +15,4 @@
 /offers/for-transaction/#TransactionId OffersForTransactionR GET
 /transactions/all AllTransR GET
 /current-user AuthCurrentIdR GET
+/transactions/by-id/#TransactionId TransByIdR GET
