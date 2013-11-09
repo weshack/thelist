@@ -10,7 +10,7 @@
 /users/register/#String/#String/#String FinishUserR GET
 /users/by-key/#UserId UserByKeyR GET
 /users/can-review PossibleReviewsR GET
-/ratings/for-user/#String RatingR GET
+/ratings/for-user/#UserId RatingR GET
 /ratings/add AddRatingR POST
 /offers/all OffersR GET
 /offers/by-id/#String OffersByIdR GET
