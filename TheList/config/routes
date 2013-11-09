@@ -9,6 +9,7 @@
 /users/by-id/#String UserByIdR GET
 /users/register/#String/#String/#String FinishUserR GET
 /users/by-key/#UserId UserByKeyR GET
+/users/can-review PossibleReviewsR GET
 /ratings/for-user/#String RatingR GET
 /ratings/add AddRatingR POST
 /offers/all OffersR GET
