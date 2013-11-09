@@ -32,15 +32,17 @@ var myTransactions = function() {
       } else {
         $('.container .row').html('');
         for (var i=0; i < resp.length; i++) {
-          (function(r) {
-            var h2 = $("<h2>").text(r.value.transactionItem);
-            var desc = $("<p>").text(r.value.transactionDescription);
-            var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle', 'modal').attr('data-target', '#myTransactionModal').text('view details >>').click(function(){showTransactionDetails(r);});
-            var div = $("<div>").addClass("col-sm-6").addClass("col-md-3").append(h2).append(desc).append(btn);
-            $('.container .row').append(div);
-          })(resp[i]);
+          if (!resp[i].value.transactionCompleted) {
+            (function(r) {
+              var h2 = $("<h2>").text(r.value.transactionItem);
+              var desc = $("<p>").text(r.value.transactionDescription);
+              var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle', 'modal').attr('data-target', '#myTransactionModal').text('view details >>').click(function(){showTransactionDetails(r);});
+              var div = $("<div>").addClass("col-sm-6").addClass("col-md-3").append(h2).append(desc).append(btn);
+              $('.container .row').append(div);
+            })(resp[i]);
+          }
         }
-      }
+      } 
     });
   });
 };
@@ -49,26 +51,21 @@ var myTransactions = function() {
 var showTransactionDetails = function(response) {
   $("#myTransactionModalBody").html('');
   $("#myTransactionModalTitle").val(response.value.transactionItem);
-  var vendor = $("<h4>").text(response.value.transactionVendor);
   var desc = $("<p>").text(response.value.transactionDescription);
   $("#myTransactionModalTitle").text(response['value']['transactionItem']);
   var ul = $("<ul>").text("Offers");
-  $("#myTransactionModalBody").append(vendor).append(desc).append(ul);
+  $("#myTransactionModalBody").append(desc).append(ul);
   $.getJSON("/offers/for-transaction/" + response.key).done(function(response){
     for (var i=0; i < response.length; i++) {
       (function(r) {
         var desc = $("<p>").text(r.value.offerOffer + "   ");
-        var btn = $("<button>").addClass('btn').addClass('btn-default').text('Accept Offer').click(function(){acceptOffer(r);});
+        var btn = $("<button>").addClass('btn').addClass('btn-default').text('Accept Offer').click(function(){$.getJSON("/offers/accept/" + r.key);});
         desc.append(btn);
         var li = $("<li>").addClass('offer').append(desc);
         ul.append(li);
       })(response[i]);
     }
   });
-};
-
-var acceptOffer = function(offer) {
-console.log(offer);
 };
 
 var myOffers = function() {
