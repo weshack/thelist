@@ -24,7 +24,6 @@ var register = function() {
   }
 };
 
-//data-toggle="modal" data-target="#myTransactions"
 var myTransactions = function() {
   $.getJSON("/current-user").done(function(response){
     $.getJSON("/transactions/by-id/" + response['value']['userIdent']).done(function(resp){
@@ -48,23 +47,23 @@ var myTransactions = function() {
 
 
 var showTransactionDetails = function(response) {
-  $("#myTransactionBody").html("");
+  $("#myTransactionModalBody").html('');
   $("#myTransactionModalTitle").val(response.value.transactionItem);
   var vendor = $("<h4>").text(response.value.transactionVendor);
   var desc = $("<p>").text(response.value.transactionDescription);
   $("#myTransactionModalTitle").text(response['value']['transactionItem']);
-  var ul = $("<ul>").addClass('offer-list').text("Offers");
+  var ul = $("<ul>").text("Offers");
+  $("#myTransactionModalBody").append(vendor).append(desc).append(ul);
   $.getJSON("/offers/for-transaction/" + response.key).done(function(response){
-    console.log(response);
     for (var i=0; i < response.length; i++) {
       (function(r) {
-        var desc = $("<p>").text(r.value.offerText);
-        var btn = $("<button>").addClass('btn').addClass('btn-default').text('Accept Offer').click(function(){accpetOffer(r);});
-        var li = $("<li>").addClass('offer').append(desc).append(btn);
+        var desc = $("<p>").text(r.value.offerOffer + "   ");
+        var btn = $("<button>").addClass('btn').addClass('btn-default').text('Accept Offer').click(function(){acceptOffer(r);});
+        desc.append(btn);
+        var li = $("<li>").addClass('offer').append(desc);
         ul.append(li);
       })(response[i]);
     }
-    $("myTransactionModalBody").append(vendor).append(desc).append(ul);
   });
 };
 
