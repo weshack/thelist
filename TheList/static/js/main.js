@@ -172,6 +172,7 @@ var searchTransactions = function(){
 
 
 var fillTransactionModal = function(response){
+	$("#transactionModalBody").html("");
     $("#transactionModalTitle").val(response.value.transactionItem);
     $.getJSON("/users/by-key/" + response.value.transactionVendor).done(function(user){
         var vendor = $("<h4>").text(user.userName + " - " + user.userIdent);
