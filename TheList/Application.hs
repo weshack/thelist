@@ -24,7 +24,6 @@ import Handler.AllUsers
 import Handler.UserById
 import Handler.Rating
 import Handler.Offers
-import Handler.RescindOffer
 import Handler.AllTrans
 import Handler.AuthCurrentId
 import Handler.TransById
