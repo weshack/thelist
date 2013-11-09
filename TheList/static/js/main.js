@@ -96,9 +96,9 @@ var settings = function() {
 var showProfile = function(key) {
 	$.getJSON("/users/by-key/"+key).done(function(response){
 		console.log(response);
-		$("#userProfileName").val(response['userName']);
-		$("#userProfileEmail").val(response['userIdent']);
-		$("#userProfileCity").val(response['userCity']);
+		$("#userProfileName").text(response['userName']);
+		$("#userProfileEmail").text(response['userIdent']);
+		$("#userProfileCity").text(response['userCity']);
 		$.getJSON("/transactions/by-id/" + response['userIdent']).done(function(response){
         console.log(response);
         $("#userProfileTransactions").html("");
