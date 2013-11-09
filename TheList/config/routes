@@ -6,3 +6,4 @@
 
 / HomeR GET POST
 /users/all AllUsersR GET
+/users/by-id/#UserId UserByIdR GET

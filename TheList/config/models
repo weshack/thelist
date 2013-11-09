@@ -1,6 +1,8 @@
 User
     ident Text
     password Text Maybe
+    name Text Maybe
+    city Text Maybe
     UniqueUser ident
     deriving Typeable
 Email
@@ -8,5 +10,19 @@ Email
     user UserId Maybe
     verkey Text Maybe
     UniqueEmail email
-
+Rating
+    reviewer UserId
+    reviewed UserId
+    comment Text Maybe
+    rating Int
+Transaction
+    vendor UserId
+    client UserId Maybe
+    item Text
+    bestOffer Text
+    completed Int Maybe
+Offer
+    transaction Transaction
+    client UserId
+    offer Text
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)
