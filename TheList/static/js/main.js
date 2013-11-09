@@ -71,16 +71,17 @@ var showOffers = function(transaction) {
     $("#" + transaction.key).html('');
     if (response.length === 0){
       $('#'+transaction.key).append($("<div>").text('No offers'));
-    } else {
-    for (var i=0; i < response.length; i++) {
-      (function(r) {
-        var price = $("<div>").text(r.value.offerOffer);
-        var btn = $("<button>").addClass('btn').addClass('transactionBtn').addClass('btn-default').text('Accept Offer').click(function(){acceptOffer(r);});
-        price.append(btn);
-        var li = $("<li>").addClass('offer').append(price);
-        $("#"+transaction.key).append(li);
-      })(response[i]);
-    }
+    } 
+    else {
+      for (var i=0; (i < response.length && i < 17); i++) {
+        (function(r) {
+          var price = $("<div>").text(r.value.offerOffer);
+          var btn = $("<button>").addClass('btn').addClass('transactionBtn').addClass('btn-default').text('Accept Offer').click(function(){acceptOffer(r);});
+          price.append(btn);
+          var li = $("<li>").addClass('offer').append(price);
+          $("#"+transaction.key).append(li);
+        })(response[i]);
+      }
     }
   });
 };
