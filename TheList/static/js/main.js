@@ -60,6 +60,17 @@ var addTransaction = function(){
   });
 };
 
+/* Makes the offer form visible */
+var showOfferForm = function() {
+  console.log('clicked');
+  $("#offerForm").removeClass("hidden");
+};
+/* Hides the offer form */
+var hideOfferForm = function() {
+  console.log('clicked hidden');
+  $("#offerForm").addClass("hidden");
+};
+
 /* Adds a new offer */
 var addOffer = function() {
   var data = {
