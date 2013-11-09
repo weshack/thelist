@@ -203,11 +203,11 @@ var fillTransactionModal = function(response){
     $("#transactionModalBodyProfile").click(function(){showProfile(response.value.transactionVendor);$('#transactionModal .close').click()});
     $.getJSON("/ratings/for-user/"+response.value.transactionVendor).done(function(rating){
     $.getJSON("/users/by-key/" + response.value.transactionVendor).done(function(user){
-        var vendor = $("#transactionModalBodyProfile").text(user.userName + " - " + user.userIdent);
+        var vendor = $("<a id='transactionModalBodyProfile'>").text(user.userName + " - " + user.userIdent).one('click',function(){showProfile(response.value.transactionVendor);$('#transactionModal .close').click();});
         var rates = $("<h5>").text("Rating: " + rating.rating + " out of " + rating.num_ratings + " reviews.");
         var desc = $("<p>").text(response.value.transactionDescription);
         var offerForm = $("<div id='offerForm'>").addClass('transition-all').append($("<h4>").text("Make an Offer")).append($("<table>").append($("<tr>").append($("<td>").text("Enter an Offer: ")).append($("<td>").append($("<input id='new-offer-amount'>").attr('type','text')))))
-        $("#offerButton").click(function(){makeOffer(response.key);$('#transactionModal .close').click()});
+        $("#offerButton").one('click',function(){makeOffer(response.key);$('#transactionModal .close').click()});
         $("#transactionModalBody").append(vendor).append(rates).append(desc).append(offerForm);
         $("#transaction-title").val(response['value']['transactionItem']);
     });
