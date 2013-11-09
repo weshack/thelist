@@ -3,8 +3,20 @@ var isLoggedIn = function(){
 		if (!response['value'])
 			return false;
 		else
-      $("#accountform").html('<div class="dropdown-toggle" id="username" data-toggle="dropdown">' + response['value']['userIdent']+'</div><ul class="dropdown-menu"><li><a href="/transactions">My Transactions</a></li><li><a href="/offers">My Offers</a></li><li><a href="/settings">Settings</a></li><li><a href="/auth/logout">Log Out</a></li></ul>');
+      $("#accountform").html('<div class="dropdown-toggle" id="username" data-toggle="dropdown">' + response['value']['userIdent'] + '</div><ul class="dropdown-menu"><li><a href="#transactions" data-toggle="modal" data-target="#myTransactions" onclick="myTransactions">My Transactions</a></li><li><a href="#offers" onclick="myOffers()">My Offers</a></li><li><a href="#settings" onclick="settings()">Settings</a></li><li><a href="/auth/logout">Log Out</a></li></ul>');
       });
+};
+
+var myTransactions = function() {
+  
+};
+
+var myOffers = function() {
+
+};
+
+var settings = function() {
+
 };
 
 var searchTransactions = function(){
