@@ -48,13 +48,28 @@ var myTransactions = function() {
 
 
 var showTransactionDetails = function(response) {
+  $("#myTransactionBody").html("");
   $("#myTransactionModalTitle").val(response.value.transactionItem);
   var vendor = $("<h4>").text(response.value.transactionVendor);
   var desc = $("<p>").text(response.value.transactionDescription);
-  $("#myTransactionModalBody").append(vendor).append(desc);
   $("#myTransactionModalTitle").text(response['value']['transactionItem']);
+  var ul = $("<ul>").addClass('offer-list').text("Offers");
   $.getJSON("/offers/for-transaction/" + response.key).done(function(response){
+    console.log(response);
+    for (var i=0; i < response.length; i++) {
+      (function(r) {
+        var desc = $("<p>").text(r.value.offerText);
+        var btn = $("<button>").addClass('btn').addClass('btn-default').text('Accept Offer').click(function(){accpetOffer(r);});
+        var li = $("<li>").addClass('offer').append(desc).append(btn);
+        ul.append(li);
+      })(response[i]);
+    }
+    $("myTransactionModalBody").append(vendor).append(desc).append(ul);
   });
+};
+
+var acceptOffer = function(offer) {
+console.log(offer);
 };
 
 var myOffers = function() {
@@ -73,6 +88,7 @@ var myOffers = function() {
         }
 	$('#myOffersModal').modal('show')
 
+});
 };
 
 var cancelOffer = function(r){
