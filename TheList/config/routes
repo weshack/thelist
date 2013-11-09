@@ -17,3 +17,4 @@
 /transactions/all AllTransR GET
 /current-user AuthCurrentIdR GET
 /transactions/by-id/#TransactionId TransByIdR GET
+/transactions/add AddTransactionR POST

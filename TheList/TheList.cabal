@@ -27,6 +27,7 @@ library
                      Handler.AllTrans
                      Handler.AuthCurrentId
                      Handler.TransById
+                     Handler.AddTransaction
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
