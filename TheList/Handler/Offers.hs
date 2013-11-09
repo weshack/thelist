@@ -79,6 +79,6 @@ postRescindOfferR = do
       case ((offerClient c) == logged_in) of
         True -> do
           runDB $ deleteWhere [ OfferId ==. oId ]
-          returnJson $ object [ "result" .= ("ok" :: Text) ] 
-        False -> returnJson $ object [ "result" .= ("error" :: Text) ]
+          returnJson [ "result" .= ("ok" :: Text) ] 
+        False -> returnJson [ "result" .= ("error" :: Text) ]
     _ -> return $ object [ "result" .= ("error" :: Text) ]
