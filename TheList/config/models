@@ -22,7 +22,7 @@ Transaction
     bestOffer Text
     completed Int Maybe
 Offer
-    transaction Transaction
+    transaction TransactionId
     client UserId
     offer Text
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)
