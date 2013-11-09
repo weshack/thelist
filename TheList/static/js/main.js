@@ -59,12 +59,19 @@ var showTransactionDetails = function(response) {
     for (var i=0; i < response.length; i++) {
       (function(r) {
         var desc = $("<p>").text(r.value.offerOffer + "   ");
-        var btn = $("<button>").addClass('btn').addClass('btn-default').text('Accept Offer').click(function(){$.getJSON("/offers/accept/" + r.key);});
+        var btn = $("<button>").addClass('btn').addClass('btn-default').text('Accept Offer').click(function(){acceptOffer(r);});
         desc.append(btn);
         var li = $("<li>").addClass('offer').append(desc);
         ul.append(li);
       })(response[i]);
     }
+  });
+};
+
+var acceptOffer = function(offer) {
+  $.getJSON("/offers/accept/" + offer.key).done(function() {
+    $("#myTransactionModal .close").click();
+    myTransactions();
   });
 };
 
