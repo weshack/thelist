@@ -52,11 +52,12 @@ var myTransactions = function() {
               var h2 = $("<h2>").text(r.value.transactionItem);
               var desc = $("<p>").text(r.value.transactionDescription);
               //var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle', 'modal').attr('data-target', '#myTransactionModal').text('view details >>').click(function(){showTransactionDetails(r);});
-              var ul = $('<ul id="'+r.key+'">"').text("Offers");
-              showOffers(r);
-              var div = $("<div>").append(h2).append(desc).append(ul);
-              var li = $('<li>').append(div);
+              var dropdown = $('<div>').addClass('dropdown-toggle').addClass('btn').addClass('btn-default').attr("data-toggle","dropdown").text("Offers");
+              var ul = $('<ul id="'+r.key+'">"').addClass("dropdown-menu");
+              var div = $("<div>").addClass("transaction").append(h2).append(desc);
+              var li = $('<li>').addClass('btn-group').append(div).append(dropdown).append(ul);
               $('#myTransactionModalBody').append(li);
+              showOffers(r);
             })(trans[i]);
         }
       } 
@@ -67,13 +68,14 @@ var myTransactions = function() {
 
 var showOffers = function(transaction) {
   $.getJSON("/offers/for-transaction/" + transaction.key).done(function(response) {
+    $("#" + transaction.key).html('');
     for (var i=0; i < response.length; i++) {
       (function(r) {
-        var price = $("<p>").text(r.value.offerOffer);
-        var btn = $("<button>").addClass('btn').addClass('btn-default').text('Accept Offer').click(function(){acceptOffer(r);});
+        var price = $("<div>").text(r.value.offerOffer);
+        var btn = $("<button>").addClass('btn').addClass('transactionBtn').addClass('btn-default').text('Accept Offer').click(function(){acceptOffer(r);});
         price.append(btn);
         var li = $("<li>").addClass('offer').append(price);
-        $("#"+r.value.offerTransaction).append(li);
+        $("#"+transaction.key).append(li);
       })(response[i]);
     }
   });
