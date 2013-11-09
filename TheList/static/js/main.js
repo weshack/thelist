@@ -59,11 +59,11 @@ var addTransaction = function(){
     'Description': $("#new-transaction-description").val(),
     'Minimum Offer': $("#new-transaction-offer").val(),
     'Image URL': null
-  }
   $.post("/transactions/add", data).always(function(response){
     console.log(response);
   });
 };
+};   
 
 /* Makes the offer form visible */
 var showOfferForm = function() {

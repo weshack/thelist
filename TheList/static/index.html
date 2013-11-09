@@ -36,16 +36,16 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">We need your information!</h4>
+            <h4 class="modal-title">Complete your account!</h4>
           </div>
           <div class="modal-body">
             <div class="error"></div>
-            <input type='text' name='userName' value='Your Name' id='registerName'>
-            <input type='text' name='userCity' value='Your City' id='registerCity'>
+            <input type='text' name='userName' placeholder='Name' style="display: block; margin: 0 auto 15px auto;" id='registerName'>
+            <input type='text' name='userCity' placeholder='City' style="display: block; margin-left: auto; margin-right: auto;" id='registerCity'>
           </div>
           <div class="modal-footer">
             <!--<button type="button" class="btn btn-primary">Submit</button>-->
-            <input type="submit" class="btn btn-default" value="Submit" onclick="register()">
+            <input type="submit" class="btn btn-default" value="Submit" onclick="register(); $('#register .close').click();">
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
