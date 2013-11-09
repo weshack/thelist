@@ -52,6 +52,7 @@ var myTransactions = function() {
               var h2 = $("<h2>").text(r.value.transactionItem);
               var desc = $("<p>").text(r.value.transactionDescription);
               var dropdown = $('<div>').addClass('dropdown-toggle').addClass('btn').addClass('btn-default').attr("data-toggle","dropdown").text("Offers");
+              dropdown.append('<b class="caret"></b>');
               var ul = $('<ul id="'+r.key+'">"').addClass("dropdown-menu");
               var div = $("<div>").append(h2).append(desc);
               var li = $('<li>').addClass('btn-group').append(div).append(dropdown).append(ul);
