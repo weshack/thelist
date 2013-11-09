@@ -48,7 +48,7 @@ getAcceptOfferR oId = do
     case ((transactionVendor transaction) == logged_in) of
         True -> do
             (TOD currTime _) <- liftIO getClockTime
-            runDB $ update (offerTransaction offer) [ TransactionBestOffer =. (offerOffer offer), TransactionCompleted =. Just (fromInteger currTime )]
+            runDB $ update (offerTransaction offer) [ TransactionBestOffer =. (offerOffer offer), TransactionCompleted =. Just (fromInteger currTime ), TransactionClient =. Just (offerClient offer)]
             runDB $ deleteWhere [ OfferTransaction ==. (offerTransaction offer) ]
             user <- runDB $ get404 (transactionVendor transaction)
             emUser <- runDB $ get404 (offerClient offer)
