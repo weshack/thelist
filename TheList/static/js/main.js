@@ -64,8 +64,8 @@ var myOffers = function() {
         $("#myOffersResults").html("");
         for (var i = 0; i < response.length; i++){
             (function(r){
-              var h2 = $("<h2>").text(r.value.transactionItem);
-              var desc = $("<p>").text(r.value.transactionDescription);
+              var h2 = $("<h2>").text(r.value.offerOffer);
+              var desc = $("<p>").text(r.value.offerClient);
               var btn = $("<a>").addClass('btn').addClass('btn-default').text('Cancel').click(function(){cancelOffer(r);});
               var div = $("<div>").addClass("myOfferResult").addClass('col').addClass("col-md-3").append(h2).append(desc).append(btn)
               $("#myOffersResults").append(div);
