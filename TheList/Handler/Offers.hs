@@ -1,6 +1,8 @@
 module Handler.Offers where
 
 import Import
+import Yesod.Auth (requireAuthId)
+import Data.Maybe (fromJust)
 
 $(deriveJSON defaultOptions ''Offer)
 
@@ -21,3 +23,24 @@ getOffersForTransactionR :: TransactionId -> Handler Value
 getOffersForTransactionR tId = do
     offers <- runDB $ selectList [ OfferTransaction ==. tId ] []
     returnJson offers
+
+postAddOfferR :: Handler Value
+postAddOfferR = do
+    logged_in <- requireAuthId
+    ((result,_),_) <- runFormPost offerForm
+    case result of
+        FormSuccess (PartialOffer transId toOffer) -> do
+               rId <- runDB $ insert (Offer transId logged_in toOffer)
+               returnJson [ "offer_id" .= rId ]
+        _ -> returnJson [ "result" .= ("error" :: Text) ]
+
+data PartialOffer = PartialOffer TransactionId Text
+
+offerForm :: Html -> MForm Handler (FormResult PartialOffer, Widget)
+offerForm = renderTable offerAForm
+
+offerAForm :: AForm Handler PartialOffer
+offerAForm = PartialOffer
+    <$> ((fromJust . fromPathPiece) <$> areq textField "Transaction" Nothing)
+    <*> areq textField "Offer" Nothing
+

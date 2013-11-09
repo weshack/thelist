@@ -13,6 +13,7 @@
 /offers/all OffersR GET
 /offers/by-id/#String OffersByIdR GET
 /offers/for-transaction/#TransactionId OffersForTransactionR GET
+/offers/new AddOfferR POST
 /transactions/all AllTransR GET
 /current-user AuthCurrentIdR GET
 /transactions/by-id/#TransactionId TransByIdR GET
