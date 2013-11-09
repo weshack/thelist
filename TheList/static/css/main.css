@@ -52,3 +52,20 @@ body {
 .error{
   color: red;
 }
+#offerForm {
+}
+.transition-all {
+  -moz-transition: all 1s ease;
+  -webkit-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 1s ease;
+}
+  
+
+.hidden {
+  display: none;
+  -moz-transition: all 1s ease;
+  -webkit-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 1s ease;
+}
