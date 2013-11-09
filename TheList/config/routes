@@ -18,7 +18,7 @@
 /offers/accept/#OfferId AcceptOfferR  GET
 /transactions/all AllTransR GET
 /current-user AuthCurrentIdR GET
-/transactions/by-id/#TransactionId TransByIdR GET
+/transactions/by-id/#String TransByIdR GET
 /transactions/add AddTransactionR POST
 /transactions/edit EditTransactionR POST
 /transactions/search/#String SearchTransR GET
