@@ -75,7 +75,34 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-defualt" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-primary" onclick="addTransaction()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==============  MODAL FOR MAKING OFFERS ================ -->
+    <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Make an Offer</h4>
+          </div>
+          <div class="modal-body">
+            <h4>Make an Offer</h4>
+            <table>
+              <tr>
+                 <td>Transaction ID: </td><td><input type="text" id="new-offer-transaction" /></td>
+              </tr>
+              <tr>
+                 <td>Enter an Offer:</td><td><input type="text" id="new-offer-amount" /></td>
+              </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-defualt" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick='addOffer()'>Submit Offer</button>
           </div>
         </div>
       </div>
@@ -131,6 +158,9 @@
     </div>
     <div>
       <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#postModal">Post</button>
+    </div>
+    <div>
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#offerModal">Offer</button>
     </div>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">

@@ -60,6 +60,18 @@ var addTransaction = function(){
   });
 };
 
+/* Adds a new offer */
+var addOffer = function() {
+  var data = {
+    'Transaction': $('#new-offer-transaction').val(),
+    'Offer': $('#new-offer-amount').val()
+  }
+  $.post("/offers/new", data).always(function(response){
+    console.log(response);
+  });
+};
+
+
 /* searches transactions */
 var searchTransactions = function(){
 	query = $("#search-text").val();
