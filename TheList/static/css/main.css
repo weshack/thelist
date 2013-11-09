@@ -81,7 +81,14 @@ body {
 }
 
 .transaction{
+  text-align: center;
+  border: 1px #ffffff;
+  margin-bottom: 2px;
+}
 
+#myTransactionModalBodyContainer .row {
+  width: 100%;
+  padding: 5px;
 }
 
 .transactionBtn{
