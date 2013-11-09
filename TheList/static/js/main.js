@@ -34,21 +34,41 @@ var settings = function() {
 
 };
 
+var addTransaction = function(){
+  var data = {
+    'Item': $("#new-transaction-item").val(),
+    'Description': $("#new-transaction-description").val(),
+    'Minimum Offer': $("#new-transaction-offer").val(),
+    'Image URL': null
+  }
+  $.post("/transactions/add", data).always(function(response){
+    console.log(response);
+  });
+};
+
 /* searches transactions */
 var searchTransactions = function(){
 	query = $("#search-text").val();
 	$.getJSON("/transactions/search/" + query).done(function(response){
     console.log(response);
+    $("#search-results").html("");
 		for (var i = 0; i < response.length; i++){
 				$("#search-results").append("<div class='col-sm-6 col-md-3'><h2>" + 
-                                    response[i]['val']['item'] + "</h2><p>" + 
-                                    response[i]['val']['description'] + "</p></br>" + 
-                                    response[i]['val']['vendor'] + "</div>");
+                                    response[i]['value']['transactionItem'] + "</h2><p>" + 
+                                    response[i]['value']['transactionDescription'] + "</p></br>" + 
+                                    response[i]['value']['transactionVendor'] + "<p><a class='btn btn-default' onclick='function(){fillTransactionModal(" + response["key"] + ")}' data-toggle='modal' data-target='#transactionModal'>View details &raquo;</a></p></div>");
 		}
   });
 };
 
 
+var fillTransactionModal = function(a){
+	$.getJSON("/transactions/by-id/"+a).done(function(response){
+		$("#transactionModalTitle").val(response['value']['transactionItem']);
+		$("#transactionModalBody").html("<h4>"+ response['value']['transactionVendor']+"</h4><p>"+response['value']['transactionDescription']+"</p>");
+		$("#transaction-title").val(response['value']['transactionItem']);
+	})
+}
 $(function(){
   isLoggedIn();
 });
