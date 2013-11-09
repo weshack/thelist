@@ -39,7 +39,7 @@ body {
 	border-bottom:0;
 }
 .navbar-brand {
-
+  padding: 9px 15px 9px;
 }
 
 .jumbotron div {
