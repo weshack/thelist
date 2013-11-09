@@ -79,17 +79,16 @@ var myOffers = function() {
         $("#myOffersResults").html("");
         for (var i = 0; i < response.length; i++){
             (function(r){
-              var h2 = $("<h2>").text(r.value.transactionItem);
-              var desc = $("<p>").text(r.value.transactionDescription);
-              var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle','modal').attr('data-target','#transactionModal').text('Cancel').click(function(){cancelOffer(r);});
+              var h2 = $("<h2>").text(r.value.offerOffer);
+              var desc = $("<p>").text(r.value.offerClient);
+              var btn = $("<a>").addClass('btn').addClass('btn-default').text('Cancel').click(function(){cancelOffer(r);});
               var div = $("<div>").addClass("myOfferResult").addClass('col').addClass("col-md-3").append(h2).append(desc).append(btn)
               $("#myOffersResults").append(div);
             })(response[i]);
         }
 	$('#myOffersModal').modal('show')
-
-});
-};
+}
+)};
 
 var cancelOffer = function(r){
 	$.getJSON("/offers/rescind/" + r.key)
@@ -122,9 +121,9 @@ var hideOfferForm = function() {
 };
 
 /* Adds a new offer */
-var addOffer = function() {
+var makeOffer = function(transId) {
   var data = {
-    'Transaction': $('#new-offer-transaction').val(),
+    'Transaction': transId,
     'Offer': $('#new-offer-amount').val()
   }
   $.post("/offers/new", data).always(function(response){
@@ -154,10 +153,13 @@ var searchTransactions = function(){
 
 var fillTransactionModal = function(response){
     $("#transactionModalTitle").val(response.value.transactionItem);
-    var vendor = $("<h4>").text(response.value.transactionVendor);
-    var desc = $("<p>").text(response.value.transactionDescription);
-    $("#transactionModalBody").append(vendor).append(desc);
-    $("#transaction-title").val(response['value']['transactionItem']);
+    $.getJSON("/users/by-key/" + response.value.transactionVendor).done(function(user){
+        var vendor = $("<h4>").text(user.userName + " - " + user.userIdent);
+        var desc = $("<p>").text(response.value.transactionDescription);
+        var offerForm = $("<div id='offerForm'>").addClass('hidden').addClass('transition-all').append($("<h4>").text("Make an Offer")).append($("<table>").append($("<tr>").append($("<td>").text("Enter an Offer: ")).append($("<td>").append($("<input id='new-offer-amount'>").attr('type','text'))))).append($("<button>").addClass('btn').addClass('btn-default').click(function(){ makeOffer(response.key); } ).text('Submit'));
+        $("#transactionModalBody").append(vendor).append(desc).append(offerForm);
+        $("#transaction-title").val(response['value']['transactionItem']);
+    });
 }
 
 
