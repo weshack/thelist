@@ -132,6 +132,11 @@ body {
 }
 
 .caret {
-  border-color: #ffffff;
-  color: #ffffff;
+border-top: 4px solid #fff;
+border-right: 4px solid transparent;
+border-bottom: 0 dotted;
+border-left: 4px solid transparent;
+}
+.dropdown-toggle {
+  border-radius: 4px;
 }
