@@ -91,7 +91,7 @@ var searchTransactions = function(){
     console.log(response);
     $("#search-results").html("");
 		for (var i = 0; i < response.length; i++){
-				$("#search-results").append("<div class='col-sm-6 col-md-3'><h2>" +
+				$("#search-results").append("<div class='search-result col-sm-6 col-md-3'><h2>" +
                                     response[i]['value']['transactionItem'] + "</h2><p>" +
                                     response[i]['value']['transactionDescription'] + "</p></br>" +
                                     response[i]['value']['transactionVendor'] + "<p><a class='btn btn-default' onclick='fillTransactionModal(" + response[i] + ")' data-toggle='modal' data-target='#transactionModal'>View details &raquo;</a></p></div>");
