@@ -111,12 +111,14 @@
     </div><!-- /.modal -->
 
 
+    <button class='invisible' id='myTransactionModalButton' data-toggle="modal" data-target="#myTransactionModal"></button>
+
     <div class="modal fade" id="myTransactionModal">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myTransactionModalTitle">Transaction</h4>
+            <h4 class="modal-title" id="myTransactionModalTitle">Transactions</h4>
             <input type="text" class="editTransaction hidden" id="newTransactionName" />
           </div>
           <div class="modal-body transition-all" id="myTransactionModalBody">
@@ -124,7 +126,6 @@
             <div class="myTransactionCurrent" id="myTransactionMinPrice"></div>
             <input type="text" class="editTransaction hidden" id="newTransactionDescription" />
             <input type="text" class="editTransaction hidden" id="newTransactionMinPrice" />
-            <ul id="myTransactionOffers"></ul>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-defualt btn-primary" onclick="editMyTransaction()">Edit</button>

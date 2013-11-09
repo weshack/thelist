@@ -32,43 +32,48 @@ var editMyTransaction = function() {
 
 };
 
+var notCompleted = function(transaction) {
+  if (!transaction.value.transactionCompleted){
+    return transaction;
+  }
+};
+
 var myTransactions = function() {
   $.getJSON("/current-user").done(function(response){
     $.getJSON("/transactions/by-id/" + response['value']['userIdent']).done(function(resp){
-      if (resp.length == 0) {
-        $('.container .row').html("<div>You do not have any transactions!</div>");
+      $("#myTransactionModalBody").html("");
+      var trans = resp.filter(notCompleted);
+      if (trans.length == 0) {
+        var p = $("<p>").text("You do not currently have any transactions.");
+        $("#myTransactionModalBody").append(p);
       } else {
-        $('.container .row').html('');
-        for (var i=0; i < resp.length; i++) {
-          if (!resp[i].value.transactionCompleted) {
+        for (var i=0; i < trans.length; i++) {
             (function(r) {
               var h2 = $("<h2>").text(r.value.transactionItem);
               var desc = $("<p>").text(r.value.transactionDescription);
-              var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle', 'modal').attr('data-target', '#myTransactionModal').text('view details >>').click(function(){showTransactionDetails(r);});
-              var div = $("<div>").addClass("col-sm-6").addClass("col-md-3").append(h2).append(desc).append(btn);
-              $('.container .row').append(div);
-            })(resp[i]);
-          }
+              //var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle', 'modal').attr('data-target', '#myTransactionModal').text('view details >>').click(function(){showTransactionDetails(r);});
+              var ul = $('<ul id="'+r.key+'">"').text("Offers");
+              showOffers(r);
+              var div = $("<div>").append(h2).append(desc).append(ul);
+              var li = $('<li>').append(div);
+              $('#myTransactionModalBody').append(li);
+            })(trans[i]);
         }
       } 
+      $("#myTransactionModalButton").click();
     });
   });
 };
 
-
-var showTransactionDetails = function(response) {
-  $("#myTransactionModalTitle").val(response.value.transactionItem);
-  $("myTransactionDescription").text(response.value.transactionDescription);
-  $("#myTransactionModalTitle").text(response['value']['transactionItem']);
-  $("#myTransactionOffers").append(desc).append(ul);
-  $.getJSON("/offers/for-transaction/" + response.key).done(function(response){
+var showOffers = function(transaction) {
+  $.getJSON("/offers/for-transaction/" + transaction.key).done(function(response) {
     for (var i=0; i < response.length; i++) {
       (function(r) {
-        var desc = $("<p>").text(r.value.offerOffer + "   ");
+        var price = $("<p>").text(r.value.offerOffer);
         var btn = $("<button>").addClass('btn').addClass('btn-default').text('Accept Offer').click(function(){acceptOffer(r);});
-        desc.append(btn);
-        var li = $("<li>").addClass('offer').append(desc);
-        ul.append(li);
+        price.append(btn);
+        var li = $("<li>").addClass('offer').append(price);
+        $("#"+r.value.offerTransaction).append(li);
       })(response[i]);
     }
   });
@@ -77,7 +82,6 @@ var showTransactionDetails = function(response) {
 var acceptOffer = function(offer) {
   $.getJSON("/offers/accept/" + offer.key).done(function() {
     $("#myTransactionModal .close").click();
-    myTransactions();
   });
 };
 
