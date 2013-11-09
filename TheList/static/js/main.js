@@ -145,6 +145,7 @@ var addTransaction = function(){
   }
   $.post("/transactions/add", data).always(function(response){
     console.log(response);
+    $('#postModal .close').click();
   });
 };   
 
@@ -196,7 +197,8 @@ var fillTransactionModal = function(response){
     $.getJSON("/users/by-key/" + response.value.transactionVendor).done(function(user){
         var vendor = $("<h4>").text(user.userName + " - " + user.userIdent);
         var desc = $("<p>").text(response.value.transactionDescription);
-        var offerForm = $("<div id='offerForm'>").addClass('hidden').addClass('transition-all').append($("<h4>").text("Make an Offer")).append($("<table>").append($("<tr>").append($("<td>").text("Enter an Offer: ")).append($("<td>").append($("<input id='new-offer-amount'>").attr('type','text'))))).append($("<button>").addClass('btn').addClass('btn-default').click(function(){ makeOffer(response.key); } ).text('Submit'));
+        var offerForm = $("<div id='offerForm'>").addClass('transition-all').append($("<h4>").text("Make an Offer")).append($("<table>").append($("<tr>").append($("<td>").text("Enter an Offer: ")).append($("<td>").append($("<input id='new-offer-amount'>").attr('type','text')))))
+        $("#offerButton").click(function(){makeOffer(response.key);$('#transactionModal .close').click()});
         $("#transactionModalBody").append(vendor).append(desc).append(offerForm);
         $("#transaction-title").val(response['value']['transactionItem']);
     });
@@ -224,6 +226,9 @@ var fillReviewModal = function(){
     });
 }
 
+var about = function(){
+  $('#about-button').click();
+};
 
 $(function(){
   isLoggedIn();
