@@ -102,7 +102,7 @@ var showProfile = function(key) {
 		$("userProfileName").text(response['userName']);
 		userIdent = $("userProfileEmail").text(response['userIdent']);
 		$("userProfileCity").text(response['userCity']);
-		$.getJSON("/transactions/by-id/" + userIdent).done(function(response){
+		$.getJSON("/transactions/by-id/" + response['userIdent']).done(function(response){
         console.log(response);
         $("#userProfileTransactions").html("");
         for (var i = 0; i < response.length; i++){
