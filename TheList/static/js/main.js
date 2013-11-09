@@ -4,9 +4,22 @@ var isLoggedIn = function(){
 		if (!response['value'])
 			return false;
 		else
-      $("#accountform").html('<div class="dropdown-toggle" id="username" data-toggle="dropdown">' + response['value']['userIdent']+'</div><ul class="dropdown-menu"><li><a href="/transactions">My Transactions</a></li><li><a href="/offers">My Offers</a></li><li><a href="/settings">Settings</a></li><li><a href="/auth/logout">Log Out</a></li></ul>');
+      $("#accountform").html('<div class="dropdown-toggle" id="username" data-toggle="dropdown">' + response['value']['userIdent'] + '</div><ul class="dropdown-menu"><li><a href="#transactions" data-toggle="modal" data-target="#myTransactions" onclick="myTransactions()">My Transactions</a></li><li><a href="#offers" onclick="myOffers()">My Offers</a></li><li><a href="#settings" onclick="settings()">Settings</a></li><li><a href="/auth/logout">Log Out</a></li></ul>');
       });
 };
+
+var myTransactions = function() {
+  
+};
+
+var myOffers = function() {
+
+};
+
+var settings = function() {
+
+};
+
 /* searches transactions */
 var searchTransactions = function(){
 	query = $("#search-text").val();
@@ -22,6 +35,7 @@ var searchTransactions = function(){
 };
 
 
+<<<<<<< HEAD
 var fillTransactionModal = function(a){
 	$.getJSON("/transactions/by-id/"+a).done(function(response){
 		$("#transactionModalTitle").val(response['value']['transactionItem']);
@@ -29,3 +43,8 @@ var fillTransactionModal = function(a){
 		$("#transaction-title").val(response['value']['transactionItem']);
 	})
 }
+=======
+$(function(){
+  isLoggedIn();
+});
+>>>>>>> 53ae62fc90cdc8bfd3d48f9652ff0bee72315155
