@@ -198,9 +198,8 @@ var searchTransactions = function(){
 
 
 var fillTransactionModal = function(response){
-	$("#transactionModalBody").html("");
     $("#transactionModalTitle").val(response.value.transactionItem);
-    $("#transactionModalBodyProfile").html("<a href='#' onclick=showProfile("+response.value.transactionVendor+")></a>");
+    $("#transactionModalBodyProfile").click(function(){showProfile(response.value.transactionVendor);$('#transactionModal .close').click()});
     $.getJSON("/users/by-key/" + response.value.transactionVendor).done(function(user){
         var vendor = $("#transactionModalBodyProfile").text(user.userName + " - " + user.userIdent);
 //        var rates = $("<h5>").text("Rating: " + rating.rating + " out of " + rating.num_ratings + " reviews.");
