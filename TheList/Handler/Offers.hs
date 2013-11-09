@@ -47,6 +47,7 @@ getAcceptOfferR oId = do
         True -> do
             (TOD currTime _) <- liftIO getClockTime
             runDB $ update (offerTransaction offer) [ TransactionBestOffer =. (offerOffer offer), TransactionCompleted =. Just (fromInteger currTime )]
+            runDB $ deleteWhere [ OfferTransaction ==. (offerTransaction offer) ]
             return $ object [ "result" .= ("ok" :: Text) ]
         False -> return $ object [ "result" .= ("error" :: Text) ]
     
