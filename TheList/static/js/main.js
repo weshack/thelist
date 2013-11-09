@@ -6,7 +6,6 @@ var isLoggedIn = function(){
     } else if (!response['value']['userName']) {
        $('#register-button').click(); 
 		} else {
-      console.log(response['value']);
       $("#accountform").html('<div class="dropdown-toggle" id="username" data-toggle="dropdown">' + response['value']['userIdent'] + '</div><ul class="dropdown-menu"><li><a href="#transactions" onclick="myTransactions()">My Transactions</a></li><li><a href="#offers" onclick="myOffers()">My Offers</a></li><li><a href="#settings" onclick="settings()">Settings</a></li><li><a href="/auth/logout">Log Out</a></li></ul>');
     }
   });
