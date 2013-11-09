@@ -35,7 +35,6 @@ var searchTransactions = function(){
 };
 
 
-<<<<<<< HEAD
 var fillTransactionModal = function(a){
 	$.getJSON("/transactions/by-id/"+a).done(function(response){
 		$("#transactionModalTitle").val(response['value']['transactionItem']);
@@ -43,8 +42,6 @@ var fillTransactionModal = function(a){
 		$("#transaction-title").val(response['value']['transactionItem']);
 	})
 }
-=======
 $(function(){
   isLoggedIn();
 });
->>>>>>> 53ae62fc90cdc8bfd3d48f9652ff0bee72315155
