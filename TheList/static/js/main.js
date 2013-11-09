@@ -29,11 +29,12 @@ var myTransactions = function() {
   $.getJSON("/current-user").done(function(response){
     $.getJSON("/transactions/by-id/" + response['value']['userIdent']).done(function(resp){
       if (resp.length == 0) {
-
+        $('.container .row').html("<div>You do not have any transactions!</div>");
       } else {
+        $('.container .row').html('');
         for (var i=0; i < resp.length; i++) {
           trans = resp[i]['value'];
-      
+          $('.container .row').append('<div class="col-sm-6 col-md-3"><h2>'+trans['transactionItem']+'</h2><p>'+trans['transactionDescription']+'</p><p><a class="btn btn-default" href="#">View Details &raquo;</a></p>');
         }
       }
     });
