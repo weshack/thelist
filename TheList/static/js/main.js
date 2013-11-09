@@ -90,6 +90,7 @@ var acceptOffer = function(offer) {
   console.log(offer);
   $.getJSON("/offers/accept/" + offer.key).done(function() {
     $("#myTransactionModal").modal("hide");
+    initSearch();
   });
 };
 
@@ -152,6 +153,7 @@ var addTransaction = function(){
   $.post("/transactions/add", data).always(function(response){
     console.log(response);
     $('#postModal .close').click();
+    initSearch();
   });
 };   
 
