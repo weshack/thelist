@@ -88,7 +88,7 @@ var showOffers = function(transaction) {
 var acceptOffer = function(offer) {
   console.log(offer);
   $.getJSON("/offers/accept/" + offer.key).done(function() {
-    $("#myTransactionModal .close").click();
+    $("#myTransactionModal").modal("hide");
   });
 };
 

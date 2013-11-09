@@ -82,8 +82,12 @@ body {
 
 .transaction{
   text-align: center;
-  border: 1px #ffffff;
-  margin-bottom: 2px;
+}
+.transaction:hover{
+  box-shadow: 0px 0px 3px 3px black;
+}
+.btn-group .btn {
+  margin-bottom:10px;
 }
 
 #myTransactionModalBodyContainer .row {
