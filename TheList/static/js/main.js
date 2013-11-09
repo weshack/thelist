@@ -25,6 +25,7 @@ var searchTransactions = function(){
 	query = $("#search-text").val();
 	$.getJSON("/transactions/search/" + query).done(function(response){
     console.log(response);
+    $("#search-results").html("");
 		for (var i = 0; i < response.length; i++){
 				$("#search-results").append("<div class='col-sm-6 col-md-3'><h2>" + 
                                     response[i]['value']['transactionItem'] + "</h2><p>" + 
