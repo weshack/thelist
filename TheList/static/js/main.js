@@ -20,6 +20,18 @@ var settings = function() {
 
 };
 
+var addTransaction = function(){
+  var data = {
+    'Item': $("#new-transaction-item").val(),
+    'Description': $("#new-transaction-description").val(),
+    'Minimum Offer': $("#new-transaction-offer").val(),
+    'Image URL': null
+  }
+  $.post("/transactions/add", data).always(function(response){
+    console.log(response);
+  });
+};
+
 /* searches transactions */
 var searchTransactions = function(){
 	query = $("#search-text").val();

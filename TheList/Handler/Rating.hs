@@ -22,25 +22,17 @@ getRatingR uident = do
 postAddRatingR :: Handler Value
 postAddRatingR = do
     logged_in <- requireAuthId
-    ((result,_),_) <- runFormPost ratingForm
-    case result of
-        FormSuccess (PartialRating reviewed comments score) -> do
-            prevRating <- runDB $ selectFirst [ RatingReviewed ==. reviewed, RatingReviewer ==. logged_in ] []
-            case prevRating of
-                Nothing -> do
-                    rId <- runDB $ insert (Rating logged_in reviewed comments score)
-                    return $ object [ "rating_id" .= rId ]
-                Just _ ->
-                    return $ object [ "result" .= ("already reviewed" :: Text) ]
-        _ -> return $ object [ "result" .= ("error" :: Text) ]
+    (PartialRating reviewed comments score) <- runInputPost $ PartialRating
+        <$> ((fromJust . fromPathPiece) <$> ireq textField "Reviewed")
+        <*> iopt textField "Comment" 
+        <*> ireq intField "Rating" 
+    prevRating <- runDB $ selectFirst [ RatingReviewed ==. reviewed, RatingReviewer ==. logged_in ] []
+    case prevRating of
+        Nothing -> do
+            rId <- runDB $ insert (Rating logged_in reviewed comments score)
+            return $ object [ "rating_id" .= rId ]
+        Just _ ->
+            return $ object [ "result" .= ("already reviewed" :: Text) ]
 
 data PartialRating = PartialRating UserId (Maybe Text) Int
 
-ratingForm :: Html -> MForm Handler (FormResult PartialRating, Widget)
-ratingForm = renderTable ratingAForm
-
-ratingAForm :: AForm Handler PartialRating
-ratingAForm = PartialRating
-    <$> ((fromJust . fromPathPiece) <$> areq textField "Reviewed" Nothing)
-    <*> aopt textField "Comment" Nothing
-    <*> areq intField "Rating" Nothing

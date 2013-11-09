@@ -30,22 +30,13 @@ getOffersForTransactionR tId = do
 postAddOfferR :: Handler Value
 postAddOfferR = do
     logged_in <- requireAuthId
-    ((result,_),_) <- runFormPost offerForm
-    case result of
-        FormSuccess (PartialOffer transId toOffer) -> do
-               rId <- runDB $ insert (Offer transId logged_in toOffer)
-               returnJson [ "offer_id" .= rId ]
-        _ -> return $ object [ "result" .= ("error" :: Text) ]
+    (PartialOffer transId toOffer) <- runInputPost $ PartialOffer 
+        <$> ((fromJust . fromPathPiece) <$> ireq textField "Transaction")
+        <*> ireq textField "Offer" 
+    rId <- runDB $ insert (Offer transId logged_in toOffer)
+    return $ object [ "offer_id" .= rId ]
 
 data PartialOffer = PartialOffer TransactionId Text
-
-offerForm :: Html -> MForm Handler (FormResult PartialOffer, Widget)
-offerForm = renderTable offerAForm
-
-offerAForm :: AForm Handler PartialOffer
-offerAForm = PartialOffer
-    <$> ((fromJust . fromPathPiece) <$> areq textField "Transaction" Nothing)
-    <*> areq textField "Offer" Nothing
 
 getAcceptOfferR :: OfferId -> Handler Value
 getAcceptOfferR oId = do
@@ -62,23 +53,13 @@ getAcceptOfferR oId = do
 
 data PartialOffer' = PartialOffer' OfferId
 
-offerAForm' :: AForm Handler PartialOffer'
-offerAForm' = PartialOffer' <$> ((fromJust . fromPathPiece) <$> areq textField "Offer Id" Nothing)
-
-offerForm' :: Html -> MForm Handler (FormResult PartialOffer', Widget)
-offerForm' = renderTable offerAForm'
-
-
 postRescindOfferR :: Handler Value
 postRescindOfferR = do
   logged_in <- requireAuthId
-  ((result,_),_) <- runFormPost offerForm'
-  case result of
-    FormSuccess (PartialOffer' oId) -> do
-      c <- runDB $ get404 oId
-      case ((offerClient c) == logged_in) of
-        True -> do
-          runDB $ deleteWhere [ OfferId ==. oId ]
-          returnJson $ object [ "result" .= ("ok" :: Text) ] 
-        False -> returnJson $ object [ "result" .= ("error" :: Text) ]
-    _ -> return $ object [ "result" .= ("error" :: Text) ]
+  (PartialOffer' oId) <- runInputPost $ PartialOffer' <$> ((fromJust . fromPathPiece) <$> ireq textField "Offer Id")
+  c <- runDB $ get404 oId
+  case ((offerClient c) == logged_in) of
+    True -> do
+      runDB $ deleteWhere [ OfferId ==. oId ]
+      return $ object [ "result" .= ("ok" :: Text) ] 
+    False -> return $ object [ "result" .= ("error" :: Text) ]
