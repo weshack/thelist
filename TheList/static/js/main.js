@@ -24,6 +24,14 @@ var register = function() {
   }
 };
 
+var editMyTransaction = function() {  
+  $("#newTransactionName").text($("#myTransactionModalTitle").text());
+  $("#newTransactionDescription").text($("#myTransactionModalBody p").text());
+  $("#newTransactionMinPrice").text($("#myTransactionModalBody p").text());
+  $(".editTransaction").removeClass("hidden");
+
+};
+
 var myTransactions = function() {
   $.getJSON("/current-user").done(function(response){
     $.getJSON("/transactions/by-id/" + response['value']['userIdent']).done(function(resp){
