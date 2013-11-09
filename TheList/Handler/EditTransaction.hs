@@ -11,11 +11,11 @@ postEditTransactionR = do
     case result of
         FormSuccess (PartialTransaction tId item description min_offer) -> do
             t <- runDB $ get404 tId
-            case (transactionVendor t) of
-                logged_in -> do
+            case ((transactionVendor t) == logged_in) of
+                True -> do
                     runDB $ update tId [TransactionItem =. item, TransactionBestOffer =. min_offer ]
                     returnJson [ "result" .= ("ok" :: Text) ]
-                _ -> returnJson [ "result" .= ("error" :: Text) ]
+                False -> returnJson [ "result" .= ("error" :: Text) ]
         _ -> returnJson [ "result" .= ("error" :: Text) ]
 
 data PartialTransaction = PartialTransaction TransactionId Text Text Text

@@ -44,3 +44,15 @@ offerAForm = PartialOffer
     <$> ((fromJust . fromPathPiece) <$> areq textField "Transaction" Nothing)
     <*> areq textField "Offer" Nothing
 
+getAcceptOfferR :: OfferId -> Handler Value
+getAcceptOfferR oId = do
+    logged_in <- requireAuthId
+    offer <- runDB $ get404 oId
+    transaction <- runDB $ get404 (offerTransaction offer)
+    case ((transactionVendor transaction) == logged_in) of
+        True -> do
+            runDB $ update (offerTransaction offer) [ TransactionBestOffer =. (offerOffer offer)  ]
+            returnJson [ "result" .= ("ok" :: Text) ]
+        False -> returnJson [ "result" .= ("error" :: Text) ]
+    
+
