@@ -80,6 +80,7 @@ library
                  , monad-logger                  >= 0.3
                  , fast-logger                   >= 0.3
                  , old-time                      >= 1.0
+                 , mime-mail                     >= 0.4
 
 executable         TheList
     if flag(library-only)
