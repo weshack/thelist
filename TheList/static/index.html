@@ -28,6 +28,24 @@
         <![endif]-->
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="postModal">Post</h4>
+          </div>
+          <div class="modal-body">
+            <h4>post form</h4>
+            <p>Lorem ipsum dolor et su madre</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-defualt" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
     <div class="navbar navbar-fixed-top">
@@ -59,7 +77,10 @@
         <button onclick="searchTransactions()" class="btn btn-default" id="search-submit">Submit</button>
       </form>
     </div>
-<div class="navbar navbar-inverse navbar-fixed-top">
+    <div>
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#postModal">Post</button>
+    </div>
+    <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
