@@ -193,8 +193,9 @@ var searchTransactions = function(){
 var fillTransactionModal = function(response){
 	$("#transactionModalBody").html("");
     $("#transactionModalTitle").val(response.value.transactionItem);
+    $("#transactionModalBody").html("<h4 href='#' onclick=showProfile(response.value.transactionVendor)></h4>");
     $.getJSON("/users/by-key/" + response.value.transactionVendor).done(function(user){
-        var vendor = $("<h4>").text(user.userName + " - " + user.userIdent);
+        var vendor = $("#transactionModalBody").text(user.userName + " - " + user.userIdent);
         var desc = $("<p>").text(response.value.transactionDescription);
         var offerForm = $("<div id='offerForm'>").addClass('hidden').addClass('transition-all').append($("<h4>").text("Make an Offer")).append($("<table>").append($("<tr>").append($("<td>").text("Enter an Offer: ")).append($("<td>").append($("<input id='new-offer-amount'>").attr('type','text'))))).append($("<button>").addClass('btn').addClass('btn-default').click(function(){ makeOffer(response.key); } ).text('Submit'));
         $("#transactionModalBody").append(vendor).append(desc).append(offerForm);
