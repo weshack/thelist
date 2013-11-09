@@ -53,6 +53,8 @@ var showTransactionDetails = function(response) {
   var desc = $("<p>").text(response.value.transactionDescription);
   $("#myTransactionModalBody").append(vendor).append(desc);
   $("#myTransactionModalTitle").text(response['value']['transactionItem']);
+  $.getJSON("/offers/for-transaction/" + response.key).done(function(response){
+  });
 };
 
 var myOffers = function() {
