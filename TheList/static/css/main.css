@@ -61,7 +61,16 @@ body {
   transition: all 1s ease;
 }
   
-
+#postButton{
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  top:10px;
+}
+#username{
+  color: white;
+  padding-top: 6px;
+}
 .hidden {
   display: none;
   -moz-transition: all 1s ease;
