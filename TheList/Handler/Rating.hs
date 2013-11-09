@@ -16,8 +16,8 @@ getRatingR uident = do
       ratings <- runDB $ selectList [ RatingReviewed ==. (entityKey uid) ] []
       let ratingNums = map ratingRating . map entityVal $ ratings
       let avgRating = (sum ratingNums) `div` (length ratingNums)
-      returnJson [ "rating" .= avgRating ]
-    Nothing -> returnJson [ "rating" .= (0 :: Int) ]
+      returnJson [ "rating" .= avgRating, "num_ratings" .= (length ratingNums) ]
+    Nothing -> returnJson [ "rating" .= (0 :: Int), "num_ratings" .= (0 :: Int) ]
 
 postAddRatingR :: Handler Value
 postAddRatingR = do
