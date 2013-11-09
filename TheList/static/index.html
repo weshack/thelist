@@ -57,6 +57,18 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title">Post</h4>
+              <table>
+                <tr>
+                  <td>Item:</td><td><input type="text" id="new-transaction-item" /></td>
+                </tr>
+                <tr>
+                  <td>Description:</td><td><input type="text" id="new-transaction-description" /></td>
+                </tr>
+                <tr>
+                  <td>Minimum Offer:</td><td><input type="text" id="new-transaction-offer" /></td>
+                </tr>
+              </table>
+            <input type="submit" value="Add Transaction" onclick='addTransaction()'/>
           </div>
           <div class="modal-body">
             <h4>post form</h4>
@@ -140,6 +152,9 @@
         <input type="text" class="form-control" id="search-text" placeholder="Search">
         <button onclick="searchTransactions()" class="btn btn-default" id="search-submit">Submit</button>
       </form>
+    </div>
+    <div>
+      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#postmodal">Post</button>
     </div>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
