@@ -77,7 +77,7 @@ var showOffers = function(transaction) {
       for (var i=0; (i < response.length && i < 17); i++) {
         (function(r) {
           var price = $("<div>").text(r.value.offerOffer);
-          var btn = $("<button>").addClass('btn').addClass('transactionBtn').addClass('btn-default').text('Accept Offer').click(function(){acceptOffer(r);});
+          var btn = $("<button>").addClass('btn').addClass('transactionBtn').addClass('btn-default').text('Accept Offer').one('click', function(){acceptOffer(r);});
           price.append(btn);
           var li = $("<li>").addClass('offer').append(price);
           $("#"+transaction.key).append(li);
@@ -88,10 +88,10 @@ var showOffers = function(transaction) {
 };
 
 var acceptOffer = function(offer) {
+<<<<<<< HEAD
   console.log(offer);
   $.getJSON("/offers/accept/" + offer.key).done(function() {
     $('#myTransactionModal').modal('toggle');
-    initSearch();
   });
 };
 
