@@ -53,9 +53,9 @@ var myTransactions = function() {
               var desc = $("<p>").text(r.value.transactionDescription);
               var dropdown = $('<div>').addClass('dropdown-toggle').addClass('btn').addClass('btn-default').attr("data-toggle","dropdown").text("Offers");
               var ul = $('<ul id="'+r.key+'">"').addClass("dropdown-menu");
-              var div = $("<div>").addClass("transaction").append(h2).append(desc);
+              var div = $("<div>").append(h2).append(desc);
               var li = $('<li>').addClass('btn-group').append(div).append(dropdown).append(ul);
-              var div2 = $("<div>").addClass("col-md-4").append(li);
+              var div2 = $("<div>").addClass("col-md-2").addClass("transaction").append(li);
               $('#myTransactionModalBodyContainer .row').append(div2);
               showOffers(r);
             })(trans[i]);
