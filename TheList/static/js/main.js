@@ -51,7 +51,6 @@ var myTransactions = function() {
             (function(r) {
               var h2 = $("<h2>").text(r.value.transactionItem);
               var desc = $("<p>").text(r.value.transactionDescription);
-              //var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle', 'modal').attr('data-target', '#myTransactionModal').text('view details >>').click(function(){showTransactionDetails(r);});
               var dropdown = $('<div>').addClass('dropdown-toggle').addClass('btn').addClass('btn-default').attr("data-toggle","dropdown").text("Offers");
               var ul = $('<ul id="'+r.key+'">"').addClass("dropdown-menu");
               var div = $("<div>").addClass("transaction").append(h2).append(desc);
@@ -69,6 +68,9 @@ var myTransactions = function() {
 var showOffers = function(transaction) {
   $.getJSON("/offers/for-transaction/" + transaction.key).done(function(response) {
     $("#" + transaction.key).html('');
+    if (response.length === 0){
+      $('#'+transaction.key).append($("<div>").text('No offers'));
+    } else {
     for (var i=0; i < response.length; i++) {
       (function(r) {
         var price = $("<div>").text(r.value.offerOffer);
@@ -78,10 +80,12 @@ var showOffers = function(transaction) {
         $("#"+transaction.key).append(li);
       })(response[i]);
     }
+    }
   });
 };
 
 var acceptOffer = function(offer) {
+  console.log(offer);
   $.getJSON("/offers/accept/" + offer.key).done(function() {
     $("#myTransactionModal .close").click();
   });
@@ -200,7 +204,7 @@ var fillTransactionModal = function(response){
       $("#transactionModalBody").html("<h4 href='#' onclick=showProfile(response.value.transactionVendor)></h4>");
       $.getJSON("/users/by-key/" + response.value.transactionVendor).done(function(user){
         var vendor = $("<h4>").text(user.userName + " - " + user.userIdent);
-        var rates = $("<h5>").text("Rating: " + rating.rating + " out of " + rating.num_ratings + " ratings.");
+        var rates = $("<h5>").text("Rating: " + rating.rating + " out of " + rating.num_ratings + " reviews.");
         var desc = $("<p>").text(response.value.transactionDescription);
         var offerForm = $("<div id='offerForm'>").addClass('transition-all').append($("<h4>").text("Make an Offer")).append($("<table>").append($("<tr>").append($("<td>").text("Enter an Offer: ")).append($("<td>").append($("<input id='new-offer-amount'>").attr('type','text')))))
         $("#offerButton").click(function(){makeOffer(response.key);$('#transactionModal .close').click()});
