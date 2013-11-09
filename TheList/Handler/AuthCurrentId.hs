@@ -10,4 +10,4 @@ getAuthCurrentIdR = do
     user <- maybeAuth
     case user of
         Just u -> returnJson u
-        Nothing -> returnJson [ "result" .= ("not logged in" :: Text) ]
+        Nothing -> return $ object ["result" .= ( "not logged in" :: Text )]

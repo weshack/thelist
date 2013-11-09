@@ -20,7 +20,7 @@ getOffersByIdR user_ident = do
            let uid = entityKey user
            offers <- runDB $ selectList [ OfferClient ==. uid ] []
            returnJson offers
-       Nothing -> returnJson [ "result" .= ( "user not found" :: Text ) ]
+       Nothing -> return $ object [ "result" .= ( "user not found" :: Text ) ]
 
 getOffersForTransactionR :: TransactionId -> Handler Value
 getOffersForTransactionR tId = do
@@ -35,7 +35,7 @@ postAddOfferR = do
         FormSuccess (PartialOffer transId toOffer) -> do
                rId <- runDB $ insert (Offer transId logged_in toOffer)
                returnJson [ "offer_id" .= rId ]
-        _ -> returnJson [ "result" .= ("error" :: Text) ]
+        _ -> return $ object [ "result" .= ("error" :: Text) ]
 
 data PartialOffer = PartialOffer TransactionId Text
 
@@ -56,7 +56,7 @@ getAcceptOfferR oId = do
         True -> do
             (TOD currTime _) <- liftIO getClockTime
             runDB $ update (offerTransaction offer) [ TransactionBestOffer =. (offerOffer offer), TransactionCompleted =. Just (fromInteger currTime )]
-            returnJson [ "result" .= ("ok" :: Text) ]
-        False -> returnJson [ "result" .= ("error" :: Text) ]
+            return $ object [ "result" .= ("ok" :: Text) ]
+        False -> return $ object [ "result" .= ("error" :: Text) ]
     
 

@@ -16,8 +16,8 @@ getRatingR uident = do
       ratings <- runDB $ selectList [ RatingReviewed ==. (entityKey uid) ] []
       let ratingNums = map ratingRating . map entityVal $ ratings
       let avgRating = (sum ratingNums) `div` (length ratingNums)
-      returnJson [ "rating" .= avgRating, "num_ratings" .= (length ratingNums) ]
-    Nothing -> returnJson [ "rating" .= (0 :: Int), "num_ratings" .= (0 :: Int) ]
+      return $ object [ "rating" .= avgRating, "num_ratings" .= (length ratingNums) ]
+    Nothing -> return $ object [ "rating" .= (0 :: Int), "num_ratings" .= (0 :: Int) ]
 
 postAddRatingR :: Handler Value
 postAddRatingR = do
@@ -29,10 +29,10 @@ postAddRatingR = do
             case prevRating of
                 Nothing -> do
                     rId <- runDB $ insert (Rating logged_in reviewed comments score)
-                    returnJson [ "rating_id" .= rId ]
+                    return $ object [ "rating_id" .= rId ]
                 Just _ ->
-                    returnJson [ "result" .= ("already reviewed" :: Text) ]
-        _ -> returnJson [ "result" .= ("error" :: Text) ]
+                    return $ object [ "result" .= ("already reviewed" :: Text) ]
+        _ -> return $ object [ "result" .= ("error" :: Text) ]
 
 data PartialRating = PartialRating UserId (Maybe Text) Int
 

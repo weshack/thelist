@@ -12,7 +12,7 @@ postAddTransactionR = do
         FormSuccess (PartialTransaction item description min_offer) -> do
                 tId <- runDB $ insert (Transaction logged_in Nothing item  description min_offer Nothing)
                 returnJson [ "transaction_id" .= tId ]
-        _ -> returnJson [ "result" .= ("error" :: Text) ]
+        _ -> return $ object [ "result" .= ("error" :: Text) ]
 
 data PartialTransaction = PartialTransaction Text Text Text
 

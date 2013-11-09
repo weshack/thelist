@@ -11,4 +11,4 @@ getUserByIdR uId = runDB (selectFirst [UserIdent ==. (pack uId)] []) >>= returnJ
 getFinishUserR :: String -> String -> String -> Handler Value
 getFinishUserR email name city = do
     runDB $ updateWhere [UserIdent ==. (pack email)] [ UserName =. Just (pack name), UserCity =. Just (pack city) ]
-    returnJson [ "status" .= ("ok" :: Text) ]
+    return $ object [ "status" .= ("ok" :: Text) ]
