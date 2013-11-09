@@ -5,6 +5,7 @@ module Handler.Offers where
 import Import
 import Yesod.Auth (requireAuthId)
 import Data.Maybe (fromJust)
+import System.Time (getClockTime,ClockTime(TOD))
 
 $(deriveJSON defaultOptions ''Offer)
 
@@ -53,7 +54,8 @@ getAcceptOfferR oId = do
     transaction <- runDB $ get404 (offerTransaction offer)
     case ((transactionVendor transaction) == logged_in) of
         True -> do
-            runDB $ update (offerTransaction offer) [ TransactionBestOffer =. (offerOffer offer)  ]
+            (TOD currTime _) <- liftIO getClockTime
+            runDB $ update (offerTransaction offer) [ TransactionBestOffer =. (offerOffer offer), TransactionCompleted =. Just (fromInteger currTime )]
             returnJson [ "result" .= ("ok" :: Text) ]
         False -> returnJson [ "result" .= ("error" :: Text) ]
     

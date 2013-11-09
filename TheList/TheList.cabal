@@ -79,6 +79,7 @@ library
                  , conduit                       >= 1.0
                  , monad-logger                  >= 0.3
                  , fast-logger                   >= 0.3
+                 , old-time                      >= 1.0
 
 executable         TheList
     if flag(library-only)
