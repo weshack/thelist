@@ -15,7 +15,7 @@ getRatingR uId = do
     Just _ -> do
       ratings <- runDB $ selectList [ RatingReviewed ==. uId ] []
       let ratingNums = map ratingRating . map entityVal $ ratings
-      let avgRating = (sum ratingNums) `div` (length ratingNums)
+      let avgRating = if (length ratingNums) > 0 then (sum ratingNums) `div` (length ratingNums) else 0
       return $ object [ "rating" .= avgRating, "num_ratings" .= (length ratingNums) ]
     Nothing -> return $ object [ "rating" .= (0 :: Int), "num_ratings" .= (0 :: Int) ]
 
