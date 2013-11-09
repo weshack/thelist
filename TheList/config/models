@@ -19,6 +19,7 @@ Transaction
     vendor UserId
     client UserId Maybe
     item Text
+    description Text
     bestOffer Text
     completed Int Maybe
 Offer

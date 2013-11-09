@@ -29,6 +29,7 @@ library
                      Handler.TransById
                      Handler.AddTransaction
                      Handler.EditTransaction
+                     Handler.SearchTrans
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

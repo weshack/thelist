@@ -29,6 +29,7 @@ import Handler.AuthCurrentId
 import Handler.TransById
 import Handler.AddTransaction
 import Handler.EditTransaction
+import Handler.SearchTrans
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the
