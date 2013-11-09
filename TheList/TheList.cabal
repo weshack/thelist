@@ -25,6 +25,7 @@ library
                      Handler.Rating
                      Handler.Offers
                      Handler.AllTrans
+                     Handler.TransById
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

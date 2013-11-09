@@ -14,3 +14,4 @@
 /offers/by-id/#String OffersByIdR GET
 /offers/for-transaction/#TransactionId OffersForTransactionR GET
 /transactions/all AllTransR GET
+/transactions/by-id/#TransactionId TransByIdR GET
