@@ -43,39 +43,43 @@ data PartialOffer = PartialOffer TransactionId Text
 getAcceptOfferR :: OfferId -> Handler Value
 getAcceptOfferR oId = do
     logged_in <- requireAuthId
-    offer <- runDB $ get404 oId
-    transaction <- runDB $ get404 (offerTransaction offer)
-    case ((transactionVendor transaction) == logged_in) of
-        True -> do
-            (TOD currTime _) <- liftIO getClockTime
-            runDB $ update (offerTransaction offer) [ TransactionBestOffer =. (offerOffer offer), TransactionCompleted =. Just (fromInteger currTime ), TransactionClient =. Just (offerClient offer)]
-            runDB $ deleteWhere [ OfferTransaction ==. (offerTransaction offer) ]
-            user <- runDB $ get404 (transactionVendor transaction)
-            emUser <- runDB $ get404 (offerClient offer)
-            let email = userIdent user
-            let name = fromJust . userName $ user
-            let textPart = Part {
-                  partType = "text/plain; charset=utf-8"
-                , partEncoding = None
-                , partFilename = Nothing
-                , partContent = encodeUtf8 [stext|
-                  Your offer has been accepted by #{name}.
-                  Please contact him/her at #{email} to
-                  finish the transaction.
-                  Thank you.
-                |]
-                , partHeaders = []
-              }
-            liftIO $ renderSendMail (emptyMail $ Address Nothing "noreply")
-                { mailTo = [Address Nothing (userIdent emUser)]
-                , mailHeaders =
-                [ ("Subject", "Your Offer Has Been Accepted")
-                ]
-                , mailParts = [[textPart]]
-            }
-            return $ object [ "result" .= ("ok" :: Text) ]
-        False ->
-            return $ object [ "result" .= ("error" :: Text) ]
+    mOffer <- runDB $ get oId
+    case mOffer of
+      Just offer -> do
+        transaction <- runDB $ get404 (offerTransaction offer)
+        case ((transactionVendor transaction) == logged_in) of
+            True -> do
+                (TOD currTime _) <- liftIO getClockTime
+                runDB $ update (offerTransaction offer) [ TransactionBestOffer =. (offerOffer offer), TransactionCompleted =. Just (fromInteger currTime ), TransactionClient =. Just (offerClient offer)]
+                runDB $ deleteWhere [ OfferTransaction ==. (offerTransaction offer) ]
+                user <- runDB $ get404 (transactionVendor transaction)
+                emUser <- runDB $ get404 (offerClient offer)
+                let email = userIdent user
+                let name = fromJust . userName $ user
+                let textPart = Part {
+                      partType = "text/plain; charset=utf-8"
+                    , partEncoding = None
+                    , partFilename = Nothing
+                    , partContent = encodeUtf8 [stext|
+                      Your offer has been accepted by #{name}.
+                      Please contact him/her at #{email} to
+                      finish the transaction.
+                      Thank you.
+                    |]
+                    , partHeaders = []
+                  }
+                liftIO $ renderSendMail (emptyMail $ Address Nothing "noreply")
+                    { mailTo = [Address Nothing (userIdent emUser)]
+                    , mailHeaders =
+                    [ ("Subject", "Your Offer Has Been Accepted")
+                    ]
+                    , mailParts = [[textPart]]
+                }
+                return $ object [ "result" .= ("ok" :: Text) ]
+            False ->
+                return $ object [ "result" .= ("error" :: Text) ]
+      Nothing ->
+        return $ object [ "result" .= ("error" :: Text) ]
         
 
 data PartialOffer' = PartialOffer' OfferId
