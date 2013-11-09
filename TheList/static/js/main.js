@@ -183,6 +183,27 @@ var fillTransactionModal = function(response){
     });
 }
 
+var addRating = function(reviewed){
+    $.post("/ratings/add", {
+        'Reviewed': reviewed,
+        'Rating': parseInt($("#rate-score").val())
+    }).done(fillReviewModal)
+}
+
+var fillReviewModal = function(){
+    $.getJSON("/users/can-review").done(function(response){
+        $("#rate .modal-body").html('<ul></ul>');
+        for (var i = 0; i < response.length; i++){
+          (function(r){
+              $("#rate .modal-body ul").append($("<li>").text(r.value.userName).click(function(){
+                  $("#rate .modal-body").html('');
+                  $("#rate .modal-body").append($("<input id='rate-score'>").attr('type','text')).append($("<input>").attr('type','submit').click(function(){ addRating(r.key); })));
+              });
+          })(response[i])
+        }
+    });
+}
+
 
 $(function(){
   isLoggedIn();
