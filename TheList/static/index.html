@@ -51,7 +51,7 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <div class="modal fade" id="myTransactionModal">
+<div class="modal fade" id="myTransactionModal">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -67,15 +67,14 @@
             </div>
           </div>
         </div>
-
-
-    <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myOffersModal" tabindex="-1" role="dialog" aria-labelledby="myOffersModal" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title">Post</h4>
-              <table>
+              <div class="container" id="myOffersResults"></div>
+              <!-- <table>
                 <tr>
                   <td>Item:</td><td><input type="text" id="new-transaction-item" /></td>
                 </tr>
@@ -85,7 +84,7 @@
                 <tr>
                   <td>Minimum Offer:</td><td><input type="text" id="new-transaction-offer" /></td>
                 </tr>
-              </table>
+              </table> -->
             <input type="submit" value="Add Transaction" onclick='addTransaction()'/>
           </div>
           <div class="modal-body">
