@@ -6,7 +6,7 @@ var isLoggedIn = function(){
     } else if (!response['value']['userName']) {
        $('#register-button').click(); 
 		} else {
-      $("#accountform").html('<div class="dropdown-toggle" id="username" data-toggle="dropdown">' + response['value']['userIdent'] + '<b class="caret"></b></div><ul class="dropdown-menu"><li><a href="#transactions" onclick="myTransactions()">My Transactions</a></li><li><a href="#offers" onclick="myOffers()">My Offers</a></li><li><a href="#settings" onclick="settings()">Settings</a></li><li><a href="/auth/logout">Log Out</a></li></ul>');
+      $("#accountform").html('<div class="dropdown-toggle" id="username" data-toggle="dropdown">' + response['value']['userIdent'] + '<b class="caret"></b></div><ul class="dropdown-menu"><li><a href="#transactions" onclick="myTransactions()">My Transactions</a></li><li><a href="#offers" onclick="myOffers()">My Offers</a></li><li><a href="#settings" onclick="settings()">Settings</a></li><li><a href="#rate" onclick="fillReviewModal()">Review Vendors</a></li><li><a href="/auth/logout">Log Out</a></li></ul>');
     }
   });
 };
@@ -198,6 +198,7 @@ var addRating = function(reviewed){
 }
 
 var fillReviewModal = function(){
+    $("#rate-button").click();
     $.getJSON("/users/can-review").done(function(response){
         $("#rate .modal-body").html('<ul></ul>');
         for (var i = 0; i < response.length; i++){
