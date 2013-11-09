@@ -87,9 +87,7 @@ var showOffers = function(transaction) {
 };
 
 var acceptOffer = function(offer) {
-  console.log("Before the accept");
   $.getJSON("/offers/accept/" + offer.key).always(function() {
-    console.log("The accept callback");
     $("#myTransactionModal").modal("hide");
     myTransactions();
     initSearch();
