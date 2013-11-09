@@ -41,11 +41,11 @@ var notCompleted = function(transaction) {
 var myTransactions = function() {
   $.getJSON("/current-user").done(function(response){
     $.getJSON("/transactions/by-id/" + response['value']['userIdent']).done(function(resp){
-      $("#myTransactionModalBody").html("");
+      $("#myTransactionModalBodyContainer .row").html("");
       var trans = resp.filter(notCompleted);
       if (trans.length == 0) {
         var p = $("<p>").text("You do not currently have any transactions.");
-        $("#myTransactionModalBody").append(p);
+        $("#myTransactionModalBodyContainer .row").append(p);
       } else {
         for (var i=0; i < trans.length; i++) {
             (function(r) {
@@ -55,7 +55,8 @@ var myTransactions = function() {
               var ul = $('<ul id="'+r.key+'">"').addClass("dropdown-menu");
               var div = $("<div>").addClass("transaction").append(h2).append(desc);
               var li = $('<li>').addClass('btn-group').append(div).append(dropdown).append(ul);
-              $('#myTransactionModalBody').append(li);
+              var div2 = $("<div>").addClass("col-md-4").append(li);
+              $('#myTransactionModalBodyContainer .row').append(div2);
               showOffers(r);
             })(trans[i]);
         }
