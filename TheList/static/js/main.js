@@ -50,16 +50,16 @@ var settings = function() {
 };
 
 var addTransaction = function(){
-  var data = {   -           
-    'Item': $(      -        "#new-transaction-item").val(),
-    'Descripti     -         on': $("#new-transaction-description").val(),
-    'Minimum O        -      ffer': $("#new-transaction-offer").val(),
-    'Image URL         -     ': null
-  }                   -      
-  $.post("/tra           -   nsactions/add", data).always(function(response){
-    console.lo            -  g(response);
-  });                    -   
-};                      -    
+  var data = {           
+    'Item': $("#new-transaction-item").val(),
+    'Description': $("#new-transaction-description").val(),
+    'Minimum Offer': $("#new-transaction-offer").val(),
+    'Image URL': null
+  }                
+  $.post("/transactions/add", data).always(function(response){
+    console.log(response);
+  });        
+};   
 
 /* Makes the offer form visible */
 var showOfferForm = function() {
