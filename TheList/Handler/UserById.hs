@@ -5,5 +5,10 @@ import Import
 
 $(deriveJSON defaultOptions ''User)
 
-getUserByIdR :: UserId -> Handler Value
-getUserByIdR uId = runDB (get404 uId) >>= returnJson
+getUserByIdR :: String -> Handler Value
+getUserByIdR uId = runDB (selectFirst [UserIdent ==. (pack uId)] []) >>= returnJson
+
+getFinishUserR :: String -> String -> String -> Handler Value
+getFinishUserR email name city = do
+    runDB $ updateWhere [UserIdent ==. (pack email)] [ UserName =. Just (pack name), UserCity =. Just (pack city) ]
+    returnJson [ "status" .= ("ok" :: Text) ]
