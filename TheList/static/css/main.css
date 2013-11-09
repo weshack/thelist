@@ -38,13 +38,24 @@ body {
 .navbar{
 	border-bottom:0;
 }
+.navbar-brand {
+  padding: 9px 15px 9px;
+}
+
+.jumbotron div {
+  text-align: center;
+}
+.jumbotron p {
+  opacity: 0.6;
+}
+
 
 #username{
   cursor: hand;
   cursor: pointer;
 }
 
-#register-button{
+#register-but{
   height: 0px;
   width: 0px;
 }
@@ -82,6 +93,7 @@ body {
 
 .transaction{
   text-align: center;
+  margin-top:10px;
 }
 .transaction:hover{
   box-shadow: 0px 0px 3px 3px black;
@@ -100,6 +112,7 @@ body {
   margin-right: 5px;
 }
 .search-result {
+  margin-top: 10px;
   text-align: center;
 }
 .search-result:hover {
@@ -108,3 +121,13 @@ body {
 .search-result a {
   margin-bottom: 10px;
 }
+
+.btn {
+  background-image: none;
+  background-repeat: none;
+  border: none;
+}
+.btn:hover {
+  border: none;
+}
+

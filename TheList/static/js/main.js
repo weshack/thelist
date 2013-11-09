@@ -90,6 +90,7 @@ var acceptOffer = function(offer) {
   console.log(offer);
   $.getJSON("/offers/accept/" + offer.key).done(function() {
     $("#myTransactionModal").modal("hide");
+    initSearch();
   });
 };
 
@@ -131,7 +132,7 @@ var showProfile = function(key) {
             (function(r){
               var h2 = $("<h2>").text(r.value.transactionItem);
               var desc = $("<p>").text(r.value.transactionDescription);
-              var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle','modal').attr('data-target','#transactionModal').text('view details >>').click(function(){fillTransactionModal(r);});
+              var btn = $("<a>").addClass('btn-default').attr('data-toggle','modal').attr('data-target','#transactionModal').text('view details >>').click(function(){fillTransactionModal(r);});
               var div = $("<div>").addClass("search-result").addClass('col').addClass("col-md-3").append(h2).append(desc).append(btn);
               $("#userProfileTransactions").append(div);
             })(response[i]);
@@ -152,6 +153,7 @@ var addTransaction = function(){
   $.post("/transactions/add", data).always(function(response){
     console.log(response);
     $('#postModal .close').click();
+    initSearch();
   });
 };   
 
