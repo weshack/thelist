@@ -197,7 +197,24 @@ var searchTransactions = function(){
    });
 };
 
+var initSearch = function(){
+	    $.getJSON("/transactions/all/").done(function(response){
+	        console.log(response);
+	        $("#search-results").html("");
+	        for (var i = 0; i < response.length; i++){
+	            (function(r){
+	              if (!r.value.transactionCompleted){
+	              var h2 = $("<h2>").text(r.value.transactionItem);
+	              var desc = $("<p>").text(r.value.transactionDescription);
+	              var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle','modal').attr('data-target','#transactionModal').text('view details >>').click(function(){fillTransactionModal(r);});
+	              var div = $("<div>").addClass("search-result").addClass('col').addClass("col-md-3").append(h2).append(desc).append(btn)
+	              $("#search-results").append(div);
+	              }
+	            })(response[i]);
+	        }
+	   });
 
+}
 var fillTransactionModal = function(response){
     $("#transactionModalBody").html('');
     $("#transactionModalTitle").val(response.value.transactionItem);
@@ -244,6 +261,7 @@ var about = function(){
 
 $(function(){
   isLoggedIn();
+  initSearch();
   $("#search-text").keydown(function(e){
     if (e.which == 13){
       $("#search-submit").click();
