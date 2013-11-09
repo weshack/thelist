@@ -43,3 +43,12 @@ body {
   cursor: hand;
   cursor: pointer;
 }
+
+#register-button{
+  height: 0px;
+  width: 0px;
+}
+
+.error{
+  color: red;
+}
