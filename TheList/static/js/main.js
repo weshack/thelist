@@ -33,16 +33,26 @@ var myTransactions = function() {
       } else {
         $('.container .row').html('');
         for (var i=0; i < resp.length; i++) {
-          trans = resp[i]['value'];
-          $('.container .row').append('<div class="col-sm-6 col-md-3"><h2>'+trans['transactionItem']+'</h2><p>'+trans['transactionDescription']+'</p><p><button type="button" class="btn btn-primary" onclick="showTransactionDetails()" data-toggle="modal" data-target="#transDetailsModal">View Details &raquo;</button></p>');
+          (function(r) {
+            var h2 = $("<h2>").text(r.value.transactionItem);
+            var desc = $("<p>").text(r.value.transactionDescription);
+            var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle', 'modal').attr('data-target', '#myTransactionModal').text('view details >>').click(function(){showTransactionDetails(r);});
+            var div = $("<div>").addClass("col-sm-6").addClass("col-md-3").append(h2).append(desc).append(btn);
+            $('.container .row').append(div);
+          })(resp[i]);
         }
       }
     });
   });
 };
 
-var showTransactionDetails = function() {
-  console.log($(this));
+
+var showTransactionDetails = function(response) {
+  $("#myTransactionModalTitle").val(response.value.transactionItem);
+  var vendor = $("<h4>").text(response.value.transactionVendor);
+  var desc = $("<p>").text(response.value.transactionDescription);
+  $("#myTransactionModalBody").append(vendor).append(desc);
+  $("#myTransactionModalTitle").text(response['value']['transactionItem']);
 };
 
 var myOffers = function() {
@@ -59,10 +69,10 @@ var addTransaction = function(){
     'Description': $("#new-transaction-description").val(),
     'Minimum Offer': $("#new-transaction-offer").val(),
     'Image URL': null
+  }
   $.post("/transactions/add", data).always(function(response){
     console.log(response);
   });
-};
 };   
 
 /* Makes the offer form visible */
@@ -98,7 +108,7 @@ var searchTransactions = function(){
             (function(r){
               var h2 = $("<h2>").text(r.value.transactionItem);
               var desc = $("<p>").text(r.value.transactionDescription);
-              var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle','modal').attr('data-target','#transactionModal').text('View Details >>').click(function(){fillTransactionModal(r);});
+              var btn = $("<a>").addClass('btn').addClass('btn-default').attr('data-toggle','modal').attr('data-target','#transactionModal').text('view details >>').click(function(){fillTransactionModal(r);});
               var div = $("<div>").addClass("search-result").addClass('col').addClass("col-md-3").append(h2).append(desc).append(btn)
               $("#search-results").append(div);
             })(response[i]);
