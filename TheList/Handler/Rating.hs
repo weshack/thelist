@@ -4,6 +4,7 @@ module Handler.Rating where
 
 import Import
 import Data.Maybe (fromJust)
+import Yesod.Auth (requireAuthId)
 
 $(deriveJSON defaultOptions ''Rating)
 
@@ -20,19 +21,26 @@ getRatingR uident = do
 
 postAddRatingR :: Handler Value
 postAddRatingR = do
+    logged_in <- requireAuthId
     ((result,_),_) <- runFormPost ratingForm
     case result of
-        FormSuccess rating -> do
-            rId <- runDB $ insert rating
-            returnJson [ "rating_id" .= rId ]
+        FormSuccess (PartialRating reviewed comments score) -> do
+            prevRating <- runDB $ selectFirst [ RatingReviewed ==. reviewed, RatingReviewer ==. logged_in ] []
+            case prevRating of
+                Nothing -> do
+                    rId <- runDB $ insert (Rating logged_in reviewed comments score)
+                    returnJson [ "rating_id" .= rId ]
+                Just _ ->
+                    returnJson [ "result" .= ("already reviewed" :: Text) ]
         _ -> returnJson [ "result" .= ("error" :: Text) ]
 
-ratingForm :: Html -> MForm Handler (FormResult Rating, Widget)
+data PartialRating = PartialRating UserId (Maybe Text) Int
+
+ratingForm :: Html -> MForm Handler (FormResult PartialRating, Widget)
 ratingForm = renderTable ratingAForm
 
-ratingAForm :: AForm Handler Rating
-ratingAForm = Rating
-    <$> ((fromJust . fromPathPiece) <$> areq textField "Reviewer" Nothing)
-    <*> ((fromJust . fromPathPiece) <$> areq textField "Reviewed" Nothing)
+ratingAForm :: AForm Handler PartialRating
+ratingAForm = PartialRating
+    <$> ((fromJust . fromPathPiece) <$> areq textField "Reviewed" Nothing)
     <*> aopt textField "Comment" Nothing
     <*> areq intField "Rating" Nothing
