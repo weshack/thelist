@@ -13,7 +13,7 @@ postEditTransactionR = do
             t <- runDB $ get404 tId
             case ((transactionVendor t) == logged_in) of
                 True -> do
-                    runDB $ update tId [TransactionItem =. item, TransactionBestOffer =. min_offer ]
+                    runDB $ update tId [TransactionItem =. item, TransactionBestOffer =. min_offer, TransactionDescription =. description ]
                     returnJson [ "result" .= ("ok" :: Text) ]
                 False -> returnJson [ "result" .= ("error" :: Text) ]
         _ -> returnJson [ "result" .= ("error" :: Text) ]

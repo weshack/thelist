@@ -10,7 +10,7 @@ postAddTransactionR = do
     ((result,_),_) <- runFormPost transactionForm
     case result of
         FormSuccess (PartialTransaction item description min_offer) -> do
-                tId <- runDB $ insert (Transaction logged_in Nothing item  min_offer Nothing)
+                tId <- runDB $ insert (Transaction logged_in Nothing item  description min_offer Nothing)
                 returnJson [ "transaction_id" .= tId ]
         _ -> returnJson [ "result" .= ("error" :: Text) ]
 
