@@ -11,3 +11,4 @@
 /ratings/for-user/#String RatingR GET
 /ratings/add AddRatingR POST
 /offers/all OffersR GET
+/transactions/all AllTransR GET
