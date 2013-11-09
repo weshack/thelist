@@ -100,7 +100,7 @@ var showProfile = function(key) {
 	$.getJSON("/users/by-key/"+key).done(function(response){
 		console.log(response);
 		$("userProfileName").text(response['userName']);
-		$("userProfileEmail").text(response['userIdent']);
+		userIdent = $("userProfileEmail").text(response['userIdent']);
 		$("userProfileCity").text(response['userCity']);
 		$.getJSON("/transactions/by-id/" + userIdent).done(function(response){
         console.log(response);
