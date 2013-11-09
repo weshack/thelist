@@ -9,3 +9,4 @@
 /users/by-id/#String UserByIdR GET
 /users/register/#String/#String/#String FinishUserR GET
 /ratings/for-user/#String RatingR GET
+/ratings/add AddRatingR POST
