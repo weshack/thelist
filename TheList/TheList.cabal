@@ -23,6 +23,7 @@ library
                      Handler.AllUsers
                      Handler.UserById
                      Handler.Rating
+                     Handler.Offers
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

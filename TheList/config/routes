@@ -10,3 +10,4 @@
 /users/register/#String/#String/#String FinishUserR GET
 /ratings/for-user/#String RatingR GET
 /ratings/add AddRatingR POST
+/offers/all OffersR GET
