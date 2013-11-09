@@ -9,12 +9,12 @@ postAddTransactionR = do
     logged_in <- requireAuthId
     ((result,_),_) <- runFormPost transactionForm
     case result of
-        FormSuccess (PartialTransaction item description min_offer) -> do
-                tId <- runDB $ insert (Transaction logged_in Nothing item  description min_offer Nothing)
+        FormSuccess (PartialTransaction item description min_offer img) -> do
+                tId <- runDB $ insert (Transaction logged_in Nothing item  description min_offer Nothing img)
                 returnJson [ "transaction_id" .= tId ]
         _ -> return $ object [ "result" .= ("error" :: Text) ]
 
-data PartialTransaction = PartialTransaction Text Text Text
+data PartialTransaction = PartialTransaction Text Text Text (Maybe Text)
 
 transactionForm :: Html -> MForm Handler (FormResult PartialTransaction, Widget)
 transactionForm = renderTable transactionAForm
@@ -24,4 +24,5 @@ transactionAForm = PartialTransaction
     <$> areq textField "Item" Nothing
     <*> areq textField "Description" Nothing
     <*> areq textField "Minimum Offer" Nothing
+    <*> aopt textField "Image URL" Nothing
 

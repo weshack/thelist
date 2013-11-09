@@ -22,6 +22,7 @@ Transaction
     description Text
     bestOffer Text
     completed Int Maybe
+    image Text Maybe
 Offer
     transaction TransactionId
     client UserId
