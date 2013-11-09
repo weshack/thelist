@@ -34,11 +34,15 @@ var myTransactions = function() {
         $('.container .row').html('');
         for (var i=0; i < resp.length; i++) {
           trans = resp[i]['value'];
-          $('.container .row').append('<div class="col-sm-6 col-md-3"><h2>'+trans['transactionItem']+'</h2><p>'+trans['transactionDescription']+'</p><p><a class="btn btn-default" href="#">View Details &raquo;</a></p>');
+          $('.container .row').append('<div class="col-sm-6 col-md-3"><h2>'+trans['transactionItem']+'</h2><p>'+trans['transactionDescription']+'</p><p><button type="button" class="btn btn-primary" onclick="showTransactionDetails()" data-toggle="modal" data-target="#transDetailsModal">View Details &raquo;</button></p>');
         }
       }
     });
   });
+};
+
+var showTransactionDetails = function() {
+  console.log($(this));
 };
 
 var myOffers = function() {
