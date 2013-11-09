@@ -61,6 +61,29 @@ var addTransaction = function(){
   });
 };
 
+/* Makes the offer form visible */
+var showOfferForm = function() {
+  console.log('clicked');
+  $("#offerForm").removeClass("hidden");
+};
+/* Hides the offer form */
+var hideOfferForm = function() {
+  console.log('clicked hidden');
+  $("#offerForm").addClass("hidden");
+};
+
+/* Adds a new offer */
+var addOffer = function() {
+  var data = {
+    'Transaction': $('#new-offer-transaction').val(),
+    'Offer': $('#new-offer-amount').val()
+  }
+  $.post("/offers/new", data).always(function(response){
+    console.log(response);
+  });
+};
+
+
 /* searches transactions */
 var searchTransactions = function(){
 	query = $("#search-text").val();
@@ -68,22 +91,25 @@ var searchTransactions = function(){
     console.log(response);
     $("#search-results").html("");
 		for (var i = 0; i < response.length; i++){
-				$("#search-results").append("<div class='col-sm-6 col-md-3'><h2>" + 
-                                    response[i]['value']['transactionItem'] + "</h2><p>" + 
-                                    response[i]['value']['transactionDescription'] + "</p></br>" + 
-                                    response[i]['value']['transactionVendor'] + "<p><a class='btn btn-default' onclick='function(){fillTransactionModal(" + response["key"] + ")}' data-toggle='modal' data-target='#transactionModal'>View details &raquo;</a></p></div>");
+				$("#search-results").append("<div class='col-sm-6 col-md-3'><h2>" +
+                                    response[i]['value']['transactionItem'] + "</h2><p>" +
+                                    response[i]['value']['transactionDescription'] + "</p></br>" +
+                                    response[i]['value']['transactionVendor'] + "<p><a class='btn btn-default' onclick='fillTransactionModal(" + response[i] + ")' data-toggle='modal' data-target='#transactionModal'>View details &raquo;</a></p></div>");
 		}
   });
 };
 
 
 var fillTransactionModal = function(a){
+	console.log(a);
 	$.getJSON("/transactions/by-id/"+a).done(function(response){
 		$("#transactionModalTitle").val(response['value']['transactionItem']);
 		$("#transactionModalBody").html("<h4>"+ response['value']['transactionVendor']+"</h4><p>"+response['value']['transactionDescription']+"</p>");
 		$("#transaction-title").val(response['value']['transactionItem']);
+
 	})
 }
+
 
 $(function(){
   isLoggedIn();
