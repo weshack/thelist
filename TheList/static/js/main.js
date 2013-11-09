@@ -203,15 +203,15 @@ var fillTransactionModal = function(response){
     $("#transactionModalBodyProfile").html("<a href='#' onclick=showProfile("+response.value.transactionVendor+")></a>");
     $.getJSON("/users/by-key/" + response.value.transactionVendor).done(function(user){
         var vendor = $("#transactionModalBodyProfile").text(user.userName + " - " + user.userIdent);
-        var rates = $("<h5>").text("Rating: " + rating.rating + " out of " + rating.num_ratings + " reviews.");
+//        var rates = $("<h5>").text("Rating: " + rating.rating + " out of " + rating.num_ratings + " reviews.");
         var desc = $("<p>").text(response.value.transactionDescription);
         var offerForm = $("<div id='offerForm'>").addClass('transition-all').append($("<h4>").text("Make an Offer")).append($("<table>").append($("<tr>").append($("<td>").text("Enter an Offer: ")).append($("<td>").append($("<input id='new-offer-amount'>").attr('type','text')))))
         $("#offerButton").click(function(){makeOffer(response.key);$('#transactionModal .close').click()});
-        $("#transactionModalBody").append(vendor).append(rates).append(desc).append(offerForm);
+       // $("#transactionModalBody").append(vendor).append(rates).append(desc).append(offerForm);
         $("#transaction-title").val(response['value']['transactionItem']);
     });
-});
-}
+};
+
 
 var addRating = function(reviewed){
     $.post("/ratings/add", {
