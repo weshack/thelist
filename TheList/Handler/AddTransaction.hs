@@ -7,22 +7,13 @@ import Data.Maybe (fromJust)
 postAddTransactionR :: Handler Value
 postAddTransactionR = do
     logged_in <- requireAuthId
-    ((result,_),_) <- runFormPost transactionForm
-    case result of
-        FormSuccess (PartialTransaction item description min_offer img) -> do
-                tId <- runDB $ insert (Transaction logged_in Nothing item  description min_offer Nothing img)
-                returnJson [ "transaction_id" .= tId ]
-        _ -> return $ object [ "result" .= ("error" :: Text) ]
+    (PartialTransaction item description min_offer img) <- runInputPost $ PartialTransaction
+        <$> ireq textField "Item" 
+        <*> ireq textField "Description" 
+        <*> ireq textField "Minimum Offer" 
+        <*> iopt textField "Image URL" 
+    tId <- runDB $ insert (Transaction logged_in Nothing item  description min_offer Nothing img)
+    return $ object [ "transaction_id" .= tId ]
 
 data PartialTransaction = PartialTransaction Text Text Text (Maybe Text)
-
-transactionForm :: Html -> MForm Handler (FormResult PartialTransaction, Widget)
-transactionForm = renderTable transactionAForm
-
-transactionAForm :: AForm Handler PartialTransaction
-transactionAForm = PartialTransaction
-    <$> areq textField "Item" Nothing
-    <*> areq textField "Description" Nothing
-    <*> areq textField "Minimum Offer" Nothing
-    <*> aopt textField "Image URL" Nothing
 
