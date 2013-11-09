@@ -25,6 +25,11 @@ body {
   display: inline;
 }
 
+.modal-dialog {
+  width: 90%;
+  left: 5%;
+  margin: 0px;
+
 #search-submit{
 	/*width:auto;*/
 }
