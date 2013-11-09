@@ -204,8 +204,8 @@ var fillReviewModal = function(){
           (function(r){
               $("#rate .modal-body ul").append($("<li>").text(r.value.userName).click(function(){
                   $("#rate .modal-body").html('');
-                  $("#rate .modal-body").append($("<input id='rate-score'>").attr('type','text')).append($("<input>").attr('type','submit').click(function(){ addRating(r.key); })));
-              });
+                  $("#rate .modal-body").append($("<input id='rate-score'>").attr('type','text')).append($("<input>").attr('type','submit').click(function(){ addRating(r.key); }));
+              }));
           })(response[i])
         }
     });
